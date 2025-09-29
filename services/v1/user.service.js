@@ -60,6 +60,53 @@ const userService = {
       },
     };
   },
+
+  userLogin: async (data) => {
+    const { email, password } = data;
+    // validate user details
+    const errorArray = [];
+    errorArray.push(await fieldValidator.validate_email(email, 'email'));
+    errorArray.push(await fieldValidator.validate_string(password, 'password'));
+
+    // check request data
+    const filteredErrors = errorArray.filter((obj) => obj !== 1);
+    if (filteredErrors.length !== 0) {
+      logger(LOG_TYPE.ERROR, false, STATUS_CODE.BAD_REQUEST, filteredErrors);
+
+      return {
+        success: false,
+        status: STATUS_CODE.BAD_REQUEST,
+        data: filteredErrors,
+      };
+    }
+
+    // get user details
+    const user = await userRepo.getByEmail(email);
+    if (!user) {
+      throw new CustomError(RESPONSE.USER.INVALID_CRED, STATUS_CODE.UNAUTHORIZED);
+    }
+
+    // validate password and remove it
+    const isValidPassword = await bcrypt.compare(password, user.password);
+    if (!isValidPassword) {
+      throw new CustomError(RESPONSE.USER.INVALID_CRED, STATUS_CODE.UNAUTHORIZED);
+    }
+    const userObj = user.toObject();
+    delete userObj.password;
+
+    // check if user is active
+    if (!userObj.isActive) {
+      throw new CustomError(RESPONSE.USER.INACTIVE, STATUS_CODE.FORBIDDON);
+    }
+
+    return {
+      success: true,
+      status: STATUS_CODE.CREATED,
+      data: {
+        user: userObj,
+      },
+    };
+  },
 };
 
 module.exports = userService;

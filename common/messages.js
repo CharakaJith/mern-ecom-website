@@ -17,6 +17,7 @@ module.exports = {
     USER: {
       EXISTS: 'This email is already registered',
       INVALID_CRED: 'Invalid login credentials',
+      INACTIVE: 'Account is inactive. Please contact support for more information.',
     },
   },
 
