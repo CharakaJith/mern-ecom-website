@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const CustomError = require('../../util/customError');
 const fieldValidator = require('../../util/fieldValidator');
 const userRepo = require('../../repos/v1/user.repo');
+const jwtService = require('../jwt.service');
 
 const { LOG_TYPE } = require('../../constants/logger.constants');
 const { STATUS_CODE } = require('../../constants/app.constants');
@@ -99,12 +100,24 @@ const userService = {
       throw new CustomError(RESPONSE.USER.INACTIVE, STATUS_CODE.FORBIDDON);
     }
 
+    // generate access token and refresh token
+    const tokenUser = {
+      userId: userObj._id,
+      name: userObj.name,
+      email: userObj.email,
+      isActive: userObj.isActive,
+    };
+    const accessToken = await jwtService.generateAccessToken(tokenUser);
+    const refreshToken = await jwtService.generateRefreshToken(tokenUser);
+
     return {
       success: true,
       status: STATUS_CODE.CREATED,
       data: {
         user: userObj,
       },
+      accessToken: accessToken,
+      refreshToken: refreshToken,
     };
   },
 };
