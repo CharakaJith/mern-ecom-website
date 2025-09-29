@@ -19,10 +19,12 @@ const clothingItemSchema = new mongoose.Schema(
       required: true,
       min: 0,
     },
-    imageUrl: {
-      type: String,
-      trim: true,
-    },
+    imageUrls: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
     category: {
       type: String,
       enum: CATEGORY.values,

@@ -10,6 +10,10 @@ module.exports = {
       SUCCESS: 'Connection has been established successfully.',
       FAILED: (error) => `Unable to connect to the database: ${error}`,
     },
+    SEED: {
+      SUCCESS: (entity) => `${entity} has been seeded successfully.`,
+      FAILED: (entity, error) => `Unable to seed to ${entity}: ${error}`,
+    },
   },
 
   // response payload messages
