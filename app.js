@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+const MongoDB = require('./connections/mongodb');
 const { CORS } = require('./common/messages');
 
 const ENV = process.env.NODE_ENV || 'development';
@@ -26,6 +27,9 @@ app.use(
     exposedHeaders: ['Access-Token'],
   })
 );
+
+// connect to mongodb
+MongoDB.connect();
 
 // start the server
 app.listen(PORT, () => {
