@@ -11,4 +11,12 @@ module.exports = {
       FAILED: (error) => `Unable to connect to the database: ${error}`,
     },
   },
+
+  // field validation messages
+  VALIDATE: {
+    PARAM: {
+      EMPTY: (field) => `The '${field}' field is required.`,
+      INVALID: (field) => `Invalid format for '${field}'.`,
+    },
+  },
 };
