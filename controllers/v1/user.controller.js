@@ -2,7 +2,22 @@ const userService = require('../../services/v1/user.service');
 
 const userController = {
   register: async (req, res, next) => {
-    console.log(await userService.userRegister());
+    try {
+      const userData = ({ name, email, password } = req.body);
+
+      const response = await userService.userRegister(userData);
+      const { success, status, data } = response;
+
+      res.status(status).json({
+        success: success,
+        response: {
+          status: status,
+          data: data,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
   },
 };
 
