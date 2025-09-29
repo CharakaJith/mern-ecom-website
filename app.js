@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const errorHandler = require('./middleware/errorHandler');
 require('dotenv').config();
 const MongoDB = require('./connections/mongodb');
 const { CORS } = require('./common/messages');
@@ -30,6 +31,9 @@ app.use(
 
 // connect to mongodb
 MongoDB.connect();
+
+// global custom error handler
+app.use(errorHandler);
 
 // start the server
 app.listen(PORT, () => {
