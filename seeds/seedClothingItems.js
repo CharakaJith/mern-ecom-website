@@ -89,7 +89,7 @@ const items = [
     description:
       'Upgrade your off-duty style with the Script Straight Leg Jogger - where laid-back comfort meets everyday versatility. Crafted from premium soft-touch fabric, these joggers feature a relaxed fit with a straight-leg silhouette, giving you a modern edge while keeping it effortlessly casual. Whether you’re lounging, running errands, or styling them up with sneakers, these joggers are your go-to for an easy yet elevated look.',
     price: 4600.0,
-    imageUrls: ['/images/jogger-1.webp', '/images/jogger-2.webpp', '/images/jogger-3.webp'],
+    imageUrls: ['/images/jogger-1.webp', '/images/jogger-2.webp', '/images/jogger-3.webp'],
     category: CATEGORY.WOMEN,
     sizes: [SIZE.SMALL, SIZE.MEDIUM, SIZE.LARGE],
   },

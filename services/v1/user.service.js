@@ -32,7 +32,7 @@ const userService = {
       };
     }
 
-    // check is user is already registered
+    // check if user is already registered
     const user = await userRepo.getByEmail(email);
     if (user) {
       throw new CustomError(RESPONSE.USER.EXISTS, STATUS_CODE.CONFLICT);
@@ -135,6 +135,47 @@ const userService = {
       data: {
         user: userObj,
       },
+    };
+  },
+
+  updateUserDetails: async (data) => {
+    const { userId, name, email } = data;
+
+    // validate user details
+    const errorArray = [];
+    errorArray.push(await fieldValidator.validate_string(name, 'name'));
+    errorArray.push(await fieldValidator.validate_email(email, 'email'));
+
+    // check request data
+    const filteredErrors = errorArray.filter((obj) => obj !== 1);
+    if (filteredErrors.length !== 0) {
+      logger(LOG_TYPE.ERROR, false, STATUS_CODE.BAD_REQUEST, filteredErrors);
+
+      return {
+        success: false,
+        status: STATUS_CODE.BAD_REQUEST,
+        data: filteredErrors,
+      };
+    }
+
+    // check if given email is already registered
+    const userByEmail = await userRepo.getByEmail(email);
+    if (userByEmail) {
+      throw new CustomError(RESPONSE.USER.EXISTS, STATUS_CODE.CONFLICT);
+    }
+
+    // get user to update
+    const user = await userRepo.getById(userId);
+
+    // update fields
+    user.name = name;
+    user.email = email;
+
+    await userRepo.update(user);
+
+    return {
+      success: true,
+      status: STATUS_CODE.OK,
     };
   },
 };

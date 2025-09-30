@@ -10,5 +10,6 @@ userRouter.post('/login', userController.login);
 userRouter.use(authenticate);
 
 userRouter.get('/', userController.get);
+userRouter.put('/', userController.update);
 
 module.exports = userRouter;

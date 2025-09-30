@@ -70,6 +70,25 @@ const userController = {
       next(error);
     }
   },
+
+  update: async (req, res, next) => {
+    try {
+      const userData = ({ name, email } = req.body);
+      userData.userId = req.user.userId;
+
+      const response = await userService.updateUserDetails(userData);
+      const { success, status } = response;
+
+      res.status(status).json({
+        success: success,
+        response: {
+          status: status,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 
 module.exports = userController;

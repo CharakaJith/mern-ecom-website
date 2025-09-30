@@ -30,6 +30,14 @@ const userRepo = {
       throw new CustomError(DAO.FAILED.GET.By_Id(ENTITY.USER, error), STATUS_CODE.SERVER_ERROR);
     }
   },
+
+  update: async (user) => {
+    try {
+      return await user.save();
+    } catch (error) {
+      throw new CustomError(DAO.FAILED.UPDATE(ENTITY.USER, error), STATUS_CODE.SERVER_ERROR);
+    }
+  },
 };
 
 module.exports = userRepo;

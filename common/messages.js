@@ -46,6 +46,7 @@ module.exports = {
         Count: (entity, error) => `Failed to get count ${entity}: ${error.message}`,
         BY_EMAIL: (entity, error) => `Failed to retrieve ${entity} by email: ${error.message}`,
       },
+      UPDATE: (entity, error) => `Failed to update ${entity}: ${error.message}`,
     },
   },
 
