@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
 import Filter, { type FilterState } from '../filter/filter';
-import { type ClothingItem } from '../types/clothingItem';
+import { type ClothingItem } from '@/types/clothingItem';
 
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
