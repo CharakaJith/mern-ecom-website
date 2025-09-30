@@ -1,8 +1,10 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
 import Filter, { type FilterState } from '../filter/filter';
+import { type ClothingItem } from '../types/clothingItem';
 
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -11,20 +13,16 @@ const api = axios.create({
   withCredentials: true,
 });
 
-interface ClothingItem {
-  _id: string;
-  name: string;
-  description: string;
-  price: number;
-  imageUrls: string[];
-  category: string;
-  sizes: string[];
-}
-
 const ShowCase: React.FC = () => {
+  const limit = 6; // items per page
+
+  const navigate = useNavigate();
+
   const [items, setItems] = useState<ClothingItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [filters, setFilters] = useState<FilterState>({
     search: '',
     category: '',
@@ -32,10 +30,6 @@ const ShowCase: React.FC = () => {
     minPrice: '',
     maxPrice: '',
   });
-
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const limit = 6; // items per page
 
   // get clothing items
   const fetchClothingItems = async (pageNum: number = 1) => {
@@ -59,16 +53,16 @@ const ShowCase: React.FC = () => {
       } else {
         setError(response.response.data.message || 'Failed to fetch items');
       }
-    } catch (err: any) {
-      setError(err.message || 'Failed to fetch items');
+    } catch (error: any) {
+      setError(error.message || 'Failed to fetch items');
     } finally {
       setLoading(false);
     }
   };
 
   // go to details page
-  const gotToDetails = async (itemId: string) => {
-    console.log(itemId);
+  const goToDetails = (itemId: string) => {
+    navigate(`/item/${itemId}`);
   };
 
   useEffect(() => {
@@ -125,7 +119,7 @@ const ShowCase: React.FC = () => {
               {/* item content */}
               <div className="p-4 flex flex-col flex-grow">
                 <h2 className="font-semibold text-lg md:text-2xl mb-2 cursor-pointer inline-block relative group">
-                  <span className="relative" onClick={() => gotToDetails(item._id)}>
+                  <span className="relative" onClick={() => goToDetails(item._id)}>
                     {item.name}
                     <span className="absolute left-0 -bottom-1 h-[2px] bg-black transition-all duration-300 w-0 group-hover:w-full"></span>
                   </span>
@@ -133,7 +127,11 @@ const ShowCase: React.FC = () => {
 
                 <p className="text-sm text-gray-600 flex-grow cursor-default">
                   {item.description.length > 150 ? item.description.slice(0, 150) + '... ' : item.description}
-                  {item.description.length > 150 && <button className="text-blue-500 hover:underline cursor-pointer">see more</button>}
+                  {item.description.length > 150 && (
+                    <button className="text-blue-500 hover:underline cursor-pointer" onClick={() => goToDetails(item._id)}>
+                      see more
+                    </button>
+                  )}
                 </p>
 
                 <div className="mt-4 flex justify-between items-center">
