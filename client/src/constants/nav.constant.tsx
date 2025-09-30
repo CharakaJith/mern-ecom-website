@@ -9,8 +9,6 @@ export interface NavLink {
 
 export const NAV_LINKS: NavLink[] = [
   { href: '/', label: 'Home', icon: HomeIcon },
-  { href: '/about', label: 'About Us', icon: InfoIcon },
-  { href: '/contact', label: 'Contact', icon: MailIcon },
   { href: '/cart', label: 'Cart', icon: ShoppingCartIcon },
   { href: '/account', label: 'My Account', icon: UserIcon },
 ];
