@@ -7,7 +7,7 @@ type CartItem = ClothingItem & { quantity: number; size: string };
 interface CartContextType {
   cart: CartItem[];
   addToCart: (item: ClothingItem, size: string, quantity?: number) => void;
-  removeFromCart: (id: string) => void;
+  decrementFromCart: (id: string, size: string) => void;
   clearCart: () => void;
 }
 
@@ -34,13 +34,24 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     });
   };
 
-  const removeFromCart = (id: string, size?: string) => {
-    setCart((prev) => prev.filter((i) => i._id !== id || (size && i.size !== size)));
+  const decrementFromCart = (id: string, size: string) => {
+    setCart((prev) =>
+      prev.flatMap((i) => {
+        if (i._id === id && i.size === size) {
+          if (i.quantity > 1) {
+            return { ...i, quantity: i.quantity - 1 };
+          } else {
+            return []; // remove completely if quantity is 1
+          }
+        }
+        return i;
+      }),
+    );
   };
 
   const clearCart = () => setCart([]);
 
-  return <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart }}>{children}</CartContext.Provider>;
+  return <CartContext.Provider value={{ cart, addToCart, decrementFromCart, clearCart }}>{children}</CartContext.Provider>;
 };
 
 export const useCart = (): CartContextType => {
