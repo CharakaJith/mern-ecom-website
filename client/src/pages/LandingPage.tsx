@@ -5,17 +5,17 @@ import ShowCase from '@/components/showcase/showcase';
 const LandingPage: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      <section>
+      <header>
         <NavBar />
-      </section>
+      </header>
 
-      <section>
+      <main className="flex-grow">
         <ShowCase />
-      </section>
+      </main>
 
-      <section className="bg-gray-800 rounded-t-4xl">
+      <footer className="bg-gray-800 rounded-t-4xl">
         <Footer />
-      </section>
+      </footer>
     </div>
   );
 };
