@@ -1,4 +1,4 @@
-import { HomeIcon, ShoppingCartIcon, InfoIcon, UserIcon, MailIcon } from 'lucide-react';
+import { HomeIcon, ShoppingCartIcon, UserIcon } from 'lucide-react';
 import { type ComponentType, type SVGProps } from 'react';
 
 export interface NavLink {

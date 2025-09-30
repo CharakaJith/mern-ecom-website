@@ -1,3 +1,4 @@
+import Footer from '@/components/footer/footer';
 import NavBar from '@/components/navbar/navbar';
 import ShowCase from '@/components/showcase/showcase';
 
@@ -10,6 +11,10 @@ const LandingPage: React.FC = () => {
 
       <section>
         <ShowCase />
+      </section>
+
+      <section className="bg-gray-800 rounded-t-4xl">
+        <Footer />
       </section>
     </div>
   );
