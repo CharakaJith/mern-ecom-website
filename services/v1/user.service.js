@@ -121,6 +121,22 @@ const userService = {
       refreshToken: refreshToken,
     };
   },
+
+  getUserDetails: async (userId) => {
+    const user = await userRepo.getById(userId);
+
+    // remove password
+    const userObj = user.toObject();
+    delete userObj.password;
+
+    return {
+      success: true,
+      status: STATUS_CODE.OK,
+      data: {
+        user: userObj,
+      },
+    };
+  },
 };
 
 module.exports = userService;

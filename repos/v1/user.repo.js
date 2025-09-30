@@ -22,6 +22,14 @@ const userRepo = {
       throw new CustomError(DAO.FAILED.GET.BY_EMAIL(ENTITY.USER, error), STATUS_CODE.SERVER_ERROR);
     }
   },
+
+  getById: async (userId) => {
+    try {
+      return await User.findOne({ _id: userId });
+    } catch (error) {
+      throw new CustomError(DAO.FAILED.GET.By_Id(ENTITY.USER, error), STATUS_CODE.SERVER_ERROR);
+    }
+  },
 };
 
 module.exports = userRepo;

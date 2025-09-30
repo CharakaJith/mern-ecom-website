@@ -53,6 +53,23 @@ const userController = {
       next(error);
     }
   },
+
+  get: async (req, res, next) => {
+    try {
+      const response = await userService.getUserDetails(req.user.userId);
+      const { success, status, data } = response;
+
+      res.status(status).json({
+        success: success,
+        response: {
+          status: status,
+          data: data,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 
 module.exports = userController;
