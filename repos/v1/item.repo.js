@@ -29,6 +29,14 @@ const itemRepo = {
       throw new CustomError(DAO.FAILED.GET.All(ENTITY.CLOTHINGITEM, error), STATUS_CODE.SERVER_ERROR);
     }
   },
+
+  getById: async (itemId) => {
+    try {
+      return await ClothingItem.findById(itemId);
+    } catch (error) {
+      throw new CustomError(DAO.FAILED.GET.By_Id(ENTITY.CLOTHINGITEM, error), STATUS_CODE.SERVER_ERROR);
+    }
+  },
 };
 
 module.exports = itemRepo;

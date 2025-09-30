@@ -4,6 +4,7 @@ const CustomError = require('../../util/customError');
 const fieldValidator = require('../../util/fieldValidator');
 const userRepo = require('../../repos/v1/user.repo');
 const jwtService = require('../jwt.service');
+const logger = require('../../middleware/log/logger');
 
 const { LOG_TYPE } = require('../../constants/logger.constants');
 const { STATUS_CODE } = require('../../constants/app.constants');
@@ -34,7 +35,7 @@ const userService = {
     // check is user is already registered
     const user = await userRepo.getByEmail(email);
     if (user) {
-      throw new CustomError(RESPONSE.USER.EXISTS);
+      throw new CustomError(RESPONSE.USER.EXISTS, STATUS_CODE.CONFLICT);
     }
 
     // hash password

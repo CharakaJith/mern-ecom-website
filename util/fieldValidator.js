@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const { VALIDATE } = require('../common/messages');
 
 const fieldValidator = {
@@ -38,6 +40,16 @@ const fieldValidator = {
       };
     }
 
+    return 1;
+  },
+
+  validate_objectId: async (id, param = 'id') => {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return {
+        fields: param,
+        message: VALIDATE.PARAM.INVALID(param),
+      };
+    }
     return 1;
   },
 };

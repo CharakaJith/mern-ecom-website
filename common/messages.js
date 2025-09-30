@@ -23,6 +23,9 @@ module.exports = {
       INVALID_CRED: 'Invalid login credentials',
       INACTIVE: 'Account is inactive. Please contact support for more information.',
     },
+    ITEM: {
+      NOT_FOUND: 'Invalid item id',
+    },
   },
 
   // field validation messages
@@ -39,6 +42,7 @@ module.exports = {
       INSERT: (entity, error) => `Failed to create ${entity}: ${error.message}`,
       GET: {
         All: (entity, error) => `Failed to get all ${entity}: ${error.message}`,
+        By_Id: (entity, error) => `Failed to get ${entity} by ID: ${error.message}`,
         Count: (entity, error) => `Failed to get count ${entity}: ${error.message}`,
         BY_EMAIL: (entity, error) => `Failed to retrieve ${entity} by email: ${error.message}`,
       },

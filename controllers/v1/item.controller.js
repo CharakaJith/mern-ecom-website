@@ -30,6 +30,25 @@ const itemController = {
       next(error);
     }
   },
+
+  getById: async (req, res, next) => {
+    try {
+      const itemId = req.params.id;
+
+      const response = await itemService.getClothingItemById(itemId);
+      const { success, status, data } = response;
+
+      res.status(status).json({
+        success: success,
+        response: {
+          status: status,
+          data: data,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 
 module.exports = itemController;
