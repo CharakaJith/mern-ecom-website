@@ -66,11 +66,7 @@ const LoginForm = (): JSX.Element => {
             sessionStorage.setItem('accessToken', accessToken);
           }
 
-          // store user info
-          const user = res.data.response.data.user;
-          sessionStorage.setItem('user', JSON.stringify(user));
-
-          navigate('/home');
+          navigate('/');
         }
       } catch (error: any) {
         const responseData = error.response?.data?.response?.data;

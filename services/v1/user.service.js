@@ -158,14 +158,14 @@ const userService = {
       };
     }
 
-    // check if given email is already registered
-    const userByEmail = await userRepo.getByEmail(email);
-    if (userByEmail) {
-      throw new CustomError(RESPONSE.USER.EXISTS, STATUS_CODE.CONFLICT);
-    }
-
     // get user to update
     const user = await userRepo.getById(userId);
+
+    // check if given email is already registered
+    const userByEmail = await userRepo.getByEmail(email);
+    if (userByEmail && userByEmail._id.toString() !== user._id.toString()) {
+      throw new CustomError(RESPONSE.USER.EXISTS, STATUS_CODE.CONFLICT);
+    }
 
     // update fields
     user.name = name;

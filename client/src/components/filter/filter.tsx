@@ -4,6 +4,7 @@ import { EyeIcon, EyeClosedIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sizes } from '@/constants/clothingSizes';
 import { Categories } from '@/constants/clothingCategory';
+import { Input } from '../ui/input';
 
 export interface FilterState {
   search: string;
@@ -82,7 +83,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
         <div className="flex flex-col sm:flex-row gap-2 items-center w-full sm:w-auto">
           <div className="flex flex-col items-center">
             <label className="text-sm font-medium mb-1">Min Price</label>
-            <input
+            <Input
               type="number"
               value={filters.minPrice}
               onChange={(e) => handleChange('minPrice', e.target.value ? parseInt(e.target.value) : '')}
@@ -92,7 +93,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
           </div>
           <div className="flex flex-col items-center">
             <label className="text-sm font-medium mb-1">Max Price</label>
-            <input
+            <Input
               type="number"
               value={filters.maxPrice}
               onChange={(e) => handleChange('maxPrice', e.target.value ? parseInt(e.target.value) : '')}
@@ -105,7 +106,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
 
       {/* search bar */}
       <div className="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto">
-        <input
+        <Input
           type="text"
           value={filters.search}
           onChange={(e) => handleChange('search', e.target.value)}

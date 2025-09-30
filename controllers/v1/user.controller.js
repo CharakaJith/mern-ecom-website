@@ -77,12 +77,13 @@ const userController = {
       userData.userId = req.user.userId;
 
       const response = await userService.updateUserDetails(userData);
-      const { success, status } = response;
+      const { success, status, data } = response;
 
       res.status(status).json({
         success: success,
         response: {
           status: status,
+          data: data ? data : '',
         },
       });
     } catch (error) {

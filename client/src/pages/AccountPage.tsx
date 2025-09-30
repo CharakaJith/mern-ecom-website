@@ -1,9 +1,8 @@
-import Footer from '@/components/footer/footer';
 import NavBar from '@/components/navbar/navbar';
-import LoginForm from '@/forms/loginForm';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthPopup from '@/components/popups/authPopup';
+import Account from '@/components/account/account';
 
 const AccountPage: React.FC = () => {
   const [showLoginPopup, setShowLoginPopup] = useState(false);
@@ -16,9 +15,16 @@ const AccountPage: React.FC = () => {
     }
   }, []);
 
+  // navigate to landing page
   const handleClosePopup = () => {
     setShowLoginPopup(false);
-    navigate('/'); // redirect to /home on close
+    navigate('/');
+  };
+
+  // navigate to auth page
+  const handleLoginPopup = () => {
+    setShowLoginPopup(false);
+    navigate('/auth');
   };
 
   return (
@@ -28,14 +34,10 @@ const AccountPage: React.FC = () => {
       </header>
 
       <main className="flex-grow flex justify-center items-center">
-        <LoginForm />
+        <Account />
       </main>
 
-      <footer className="bg-gray-800 rounded-t-4xl">
-        <Footer />
-      </footer>
-
-      {showLoginPopup && <AuthPopup onClose={handleClosePopup} />}
+      {showLoginPopup && <AuthPopup onClose={handleClosePopup} onLogin={handleLoginPopup} />}
     </div>
   );
 };

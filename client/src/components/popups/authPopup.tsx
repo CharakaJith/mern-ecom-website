@@ -1,11 +1,8 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Button } from '../ui/button';
 import { type AuthPopupProps } from '@/types/authPopupProps';
 
-const AuthPopup: React.FC<AuthPopupProps> = ({ onClose }) => {
-  const navigate = useNavigate();
-
+const AuthPopup: React.FC<AuthPopupProps> = ({ onClose, onLogin }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
       {/* popup display card */}
@@ -22,10 +19,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ onClose }) => {
             Close
           </Button>
 
-          <Button
-            className="w-1/2 lg:w-1/4 px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-900 cursor-pointer"
-            onClick={() => navigate('/login')}
-          >
+          <Button className="w-1/2 lg:w-1/4 px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-900 cursor-pointer" onClick={onLogin}>
             Login
           </Button>
         </div>
