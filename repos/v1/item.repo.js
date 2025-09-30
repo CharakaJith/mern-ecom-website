@@ -14,17 +14,17 @@ const itemRepo = {
     }
   },
 
-  count: async () => {
+  count: async (query) => {
     try {
-      return await ClothingItem.countDocuments();
+      return await ClothingItem.countDocuments(query);
     } catch (error) {
       throw new CustomError(DAO.FAILED.GET.Count(ENTITY.CLOTHINGITEM, error), STATUS_CODE.SERVER_ERROR);
     }
   },
 
-  findWithPagination: async (skip, limit) => {
+  findWithPagination: async (query, skip, limit) => {
     try {
-      return await ClothingItem.find().skip(skip).limit(limit);
+      return await ClothingItem.find(query).skip(skip).limit(limit);
     } catch (error) {
       throw new CustomError(DAO.FAILED.GET.All(ENTITY.CLOTHINGITEM, error), STATUS_CODE.SERVER_ERROR);
     }
