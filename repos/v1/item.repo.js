@@ -10,7 +10,23 @@ const itemRepo = {
     try {
       return await ClothingItem.find({});
     } catch (error) {
-      throw new CustomError(DAO.FAILED.GET.ALL(ENTITY.CLOTHINGITEM, error), STATUS_CODE.SERVER_ERROR);
+      throw new CustomError(DAO.FAILED.GET.All(ENTITY.CLOTHINGITEM, error), STATUS_CODE.SERVER_ERROR);
+    }
+  },
+
+  count: async () => {
+    try {
+      return await ClothingItem.countDocuments();
+    } catch (error) {
+      throw new CustomError(DAO.FAILED.GET.Count(ENTITY.CLOTHINGITEM, error), STATUS_CODE.SERVER_ERROR);
+    }
+  },
+
+  findWithPagination: async (skip, limit) => {
+    try {
+      return await ClothingItem.find().skip(skip).limit(limit);
+    } catch (error) {
+      throw new CustomError(DAO.FAILED.GET.All(ENTITY.CLOTHINGITEM, error), STATUS_CODE.SERVER_ERROR);
     }
   },
 };

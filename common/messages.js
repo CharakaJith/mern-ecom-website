@@ -38,6 +38,8 @@ module.exports = {
     FAILED: {
       INSERT: (entity, error) => `Failed to create ${entity}: ${error.message}`,
       GET: {
+        All: (entity, error) => `Failed to get all ${entity}: ${error.message}`,
+        Count: (entity, error) => `Failed to get count ${entity}: ${error.message}`,
         BY_EMAIL: (entity, error) => `Failed to retrieve ${entity} by email: ${error.message}`,
       },
     },

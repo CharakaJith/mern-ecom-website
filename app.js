@@ -29,11 +29,14 @@ app.use(
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],
     exposedHeaders: ['Access-Token'],
-  })
+  }),
 );
 
 // connect to mongodb
 MongoDB.connect();
+
+// serve static files
+app.use('/images', express.static('public/images'));
 
 // setup routing paths
 app.use('/api/v1', routesV1);
