@@ -17,7 +17,7 @@ const items = [
     price: 4750.0,
     imageUrls: ['/images/tank-1.webp', '/images/tank-2.webp', '/images/tank-3.webp'],
     category: CATEGORY.MEN,
-    sizes: [SIZE.SMALL, SIZE.MEDIUM, SIZE.LARGE, SIZE.XLARGE],
+    sizes: [SIZE.MEDIUM, SIZE.LARGE, SIZE.XLARGE],
   },
   {
     name: 'Athletic Seamless Compression',
@@ -26,7 +26,7 @@ const items = [
     price: 4990.0,
     imageUrls: ['/images/tee-1.webp', '/images/tee-2.webp', '/images/tee-3.webp'],
     category: CATEGORY.MEN,
-    sizes: [SIZE.SMALL, SIZE.MEDIUM, SIZE.LARGE, SIZE.XLARGE],
+    sizes: [SIZE.SMALL, SIZE.LARGE, SIZE.XLARGE],
   },
   {
     name: 'The Vault Hoodie',
@@ -54,6 +54,24 @@ const items = [
     imageUrls: ['/images/polo-1.webp', '/images/polo-2.webp', '/images/polo-3.webp'],
     category: CATEGORY.MEN,
     sizes: [SIZE.SMALL, SIZE.MEDIUM, SIZE.LARGE, SIZE.XLARGE],
+  },
+  {
+    name: 'Axis Button Down Shirt',
+    description:
+      'Elevate your everyday style with the Axis Button Down Shirt, designed for the modern man who values both comfort and sophistication. Crafted from premium, breathable fabric, this shirt delivers all-day ease whether you’re in the office, out for dinner, or enjoying a casual weekend.',
+    price: 5450.0,
+    imageUrls: ['/images/shirt-1.webp', '/images/shirt-2.webp', '/images/shirt-3.webp'],
+    category: CATEGORY.MEN,
+    sizes: [SIZE.MEDIUM, SIZE.LARGE, SIZE.XLARGE],
+  },
+  {
+    name: 'Classic Wide Leg Pant',
+    description:
+      'Elevate your everyday style with the Axis Button Down Shirt, designed for the modern man who values both comfort and sophistication. Crafted from premium, breathable fabric, this shirt delivers all-day ease whether you’re in the office, out for dinner, or enjoying a casual weekend.',
+    price: 4650.0,
+    imageUrls: ['/images/pant-1.webp', '/images/pant-2.webp'],
+    category: CATEGORY.MEN,
+    sizes: [SIZE.MEDIUM, SIZE.LARGE, SIZE.XLARGE],
   },
 
   // women's items
@@ -96,9 +114,36 @@ const items = [
   {
     name: 'Classic Everyday Skirt',
     description:
-      'Upgrade your off-duty style with the Script Straight Leg Jogger - where laid-back comfort meets everyday versatility. Crafted from premium soft-touch fabric, these joggers feature a relaxed fit with a straight-leg silhouette, giving you a modern edge while keeping it effortlessly casual. Whether you’re lounging, running errands, or styling them up with sneakers, these joggers are your go-to for an easy yet elevated look.',
+      'Redefine comfort and style with the Classic Wide Leg Pant, a versatile wardrobe essential for the modern man. Designed with a relaxed, wide-leg silhouette, these pants offer ultimate freedom of movement while maintaining a polished, sophisticated look.',
     price: 5500.0,
     imageUrls: ['/images/skirt-1.webp', '/images/skirt-2.webp', '/images/skirt-3.webp'],
+    category: CATEGORY.WOMEN,
+    sizes: [SIZE.SMALL, SIZE.MEDIUM, SIZE.LARGE],
+  },
+  {
+    name: 'Boxy Long Sleeve Top',
+    description:
+      'Made from soft, breathable fabric, it ensures all-day comfort while maintaining a chic, modern look. The clean lines, slightly cropped hem, and versatile design make it easy to pair with jeans, skirts, or tailored pants for a variety of casual and smart-casual outfits.',
+    price: 5850.0,
+    imageUrls: ['/images/boxy-1.webp', '/images/boxy-2.webp', '/images/boxy-3.webp'],
+    category: CATEGORY.WOMEN,
+    sizes: [SIZE.SMALL, SIZE.MEDIUM, SIZE.LARGE],
+  },
+  {
+    name: 'Womens Seamless Athletic Polo',
+    description:
+      'Stay cool, comfortable, and stylish during every workout with the Women’s Seamless Athlete’s Polo. Engineered for performance, this polo features a seamless construction that minimizes chafing and maximizes mobility, letting you move freely through any activity.',
+    price: 5550.0,
+    imageUrls: ['/images/wp-1.webp', '/images/wp-2.webp', '/images/wp-3.webp'],
+    category: CATEGORY.WOMEN,
+    sizes: [SIZE.SMALL, SIZE.MEDIUM, SIZE.LARGE],
+  },
+  {
+    name: 'Globe Stride Crop Sweat Shirt',
+    description:
+      'Step out in comfort and style with the Globe Stride Crop Sweatshirt, a modern wardrobe essential for the active, fashion-forward woman. Designed with a relaxed fit and a trendy cropped length, this sweatshirt pairs effortlessly with high-waisted leggings, jeans, or skirts.',
+    price: 4650.0,
+    imageUrls: ['/images/stride-1.webp', '/images/stride-2.webp', '/images/stride-3.webp'],
     category: CATEGORY.WOMEN,
     sizes: [SIZE.SMALL, SIZE.MEDIUM, SIZE.LARGE],
   },

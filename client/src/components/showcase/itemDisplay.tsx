@@ -92,7 +92,7 @@ const ItemDisplay: React.FC = () => {
             </div>
           </div>
 
-          <p className="text-2xl font-bold mb-6">Rs. {item.price}.00</p>
+          <p className="text-2xl font-bold mb-6">Rs. {item.price.toLocaleString()}.00</p>
 
           {/* add to cart */}
           <Button className="bg-gray-700 hover:bg-gray-900 w-fit px-8 py-4 text-lg cursor-pointer">Add to Cart</Button>

@@ -81,7 +81,12 @@ const ShowCase: React.FC = () => {
       <div className="bg-white pb-8 px-4 rounded-xl shadow-lg w-full max-w-full md:max-w-[90%]">
         {/* filter section */}
         <div className="text-center">
-          <Filter onFilterChange={(updatedFilters) => setFilters(updatedFilters)} />
+          <Filter
+            onFilterChange={(updatedFilters) => {
+              setFilters(updatedFilters);
+              setPage(1);
+            }}
+          />
         </div>
 
         {/* section heading */}
@@ -135,7 +140,7 @@ const ShowCase: React.FC = () => {
                 </p>
 
                 <div className="mt-4 flex justify-between items-center">
-                  <p className="text-lg font-bold cursor-default">Rs. {item.price}.00</p>
+                  <p className="text-lg font-bold cursor-default">Rs. {item.price.toLocaleString()}.00</p>
                   <Button className="bg-gray-700 hover:bg-gray-900 cursor-pointer">Add to Cart</Button>
                 </div>
               </div>
