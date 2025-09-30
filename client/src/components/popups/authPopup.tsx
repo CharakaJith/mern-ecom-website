@@ -4,7 +4,7 @@ import { type AuthPopupProps } from '@/types/authPopupProps';
 
 const AuthPopup: React.FC<AuthPopupProps> = ({ onClose, onLogin }) => {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4 cursor-default">
       {/* popup display card */}
       <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg w-full max-w-sm sm:max-w-md relative">
         {/* card heading */}

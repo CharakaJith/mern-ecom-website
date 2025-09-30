@@ -90,7 +90,7 @@ const ShowCase: React.FC = () => {
         </div>
 
         {/* section heading */}
-        <h1 className="text-2xl md:text-4xl font-bold mb-6 text-center">Featured Collection</h1>
+        <h1 className="text-2xl md:text-4xl font-bold mb-6 text-center cursor-default">Featured Collection</h1>
 
         {/* message section */}
         <div>
@@ -141,7 +141,9 @@ const ShowCase: React.FC = () => {
 
                 <div className="mt-4 flex justify-between items-center">
                   <p className="text-lg font-bold cursor-default">Rs. {item.price.toLocaleString()}.00</p>
-                  <Button className="bg-gray-700 hover:bg-gray-900 cursor-pointer">Add to Cart</Button>
+                  <Button className="bg-gray-700 hover:bg-gray-900 cursor-pointer" onClick={() => goToDetails(item._id)}>
+                    Buy Now
+                  </Button>
                 </div>
               </div>
             </div>
@@ -154,7 +156,7 @@ const ShowCase: React.FC = () => {
             <Button className="bg-gray-700 hover:bg-gray-900 cursor-pointer" onClick={() => setPage((p) => Math.max(p - 1, 1))} disabled={page === 1}>
               Previous
             </Button>
-            <span className="flex items-center px-3">
+            <span className="flex items-center px-3 cursor-default">
               {page} / {totalPages}
             </span>
             <Button

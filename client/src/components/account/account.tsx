@@ -89,6 +89,7 @@ const Account: React.FC = () => {
 
               {/* buttons */}
               <div className="flex gap-4 justify-center mt-4">
+                {/* update button */}
                 <Button
                   onClick={() => setShowUpdatePopup(true)}
                   className="px-8 py-2 bg-green-700 text-white text-sm md:text-base rounded-lg hover:bg-green-900 cursor-pointer"
@@ -96,6 +97,7 @@ const Account: React.FC = () => {
                   Update
                 </Button>
 
+                {/* logout button */}
                 <Button
                   onClick={handleLogout}
                   className="px-8 py-2 bg-red-700 text-white text-sm md:text-base rounded-lg hover:bg-red-900 cursor-pointer"

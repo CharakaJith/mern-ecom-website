@@ -55,7 +55,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
           <select
             value={filters.category}
             onChange={(e) => handleChange('category', e.target.value)}
-            className="border rounded px-3 py-2 w-full sm:w-auto"
+            className="border rounded px-3 py-2 w-full sm:w-auto cursor-pointer"
           >
             <option value="">All</option>
             {Categories.values.map((cat) => (
@@ -69,7 +69,11 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
         {/* size filter */}
         <div className="flex flex-col items-center w-full sm:w-auto">
           <label className="text-sm font-medium mb-1">Size</label>
-          <select value={filters.size} onChange={(e) => handleChange('size', e.target.value)} className="border rounded px-3 py-2 w-full sm:w-auto">
+          <select
+            value={filters.size}
+            onChange={(e) => handleChange('size', e.target.value)}
+            className="border rounded px-3 py-2 w-full sm:w-auto cursor-pointer"
+          >
             <option value="">All</option>
             {Sizes.values.map((s) => (
               <option key={s} value={s}>
@@ -81,6 +85,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
 
         {/* price filter */}
         <div className="flex flex-col sm:flex-row gap-2 items-center w-full sm:w-auto">
+          {/* min amount */}
           <div className="flex flex-col items-center">
             <label className="text-sm font-medium mb-1">Min Price</label>
             <Input
@@ -88,9 +93,11 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
               value={filters.minPrice}
               onChange={(e) => handleChange('minPrice', e.target.value ? parseInt(e.target.value) : '')}
               placeholder="0.00"
-              className="border rounded px-3 py-2 w-full sm:w-24"
+              className="border rounded px-3 py-2 w-full sm:w-24 cursor-pointer"
             />
           </div>
+
+          {/* max amount */}
           <div className="flex flex-col items-center">
             <label className="text-sm font-medium mb-1">Max Price</label>
             <Input
@@ -98,7 +105,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
               value={filters.maxPrice}
               onChange={(e) => handleChange('maxPrice', e.target.value ? parseInt(e.target.value) : '')}
               placeholder="0.00"
-              className="border rounded px-3 py-2 w-full sm:w-24"
+              className="border rounded px-3 py-2 w-full sm:w-24 cursor-pointer"
             />
           </div>
         </div>
@@ -111,7 +118,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
           value={filters.search}
           onChange={(e) => handleChange('search', e.target.value)}
           placeholder="Search products..."
-          className="border rounded px-3 py-2 w-full sm:w-[300px]"
+          className="border rounded px-3 py-2 w-full sm:w-[300px] cursor-pointer"
         />
       </div>
 

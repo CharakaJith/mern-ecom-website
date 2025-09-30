@@ -43,8 +43,8 @@ const Footer: React.FC = () => {
           <div className="flex items-center gap-4">
             <img src={logo} alt="Logo png" className="h-14 w-14 object-contain" />
             <div className="flex flex-col">
-              <h1 className="text-xl md:text-3xl font-bold">Stitch & Style</h1>
-              <p className="text-gray-300 text-sm md:text-base">Crafted with care, worn with pride.</p>
+              <h1 className="text-xl md:text-3xl font-bold cursor-default">Stitch & Style</h1>
+              <p className="text-gray-300 text-sm md:text-base cursor-default">Crafted with care, worn with pride.</p>
             </div>
           </div>
 
@@ -60,7 +60,7 @@ const Footer: React.FC = () => {
 
         {/* nav links */}
         <div className="flex flex-col gap-2">
-          <h4 className="text-base font-semibold text-white">Quick Links</h4>
+          <h4 className="text-base font-semibold text-white cursor-default">Quick Links</h4>
           <ul className="flex flex-col gap-1 text-gray-300 text-sm">
             {NAV_LINKS.map((link: NavLink) => {
               return (
@@ -76,11 +76,11 @@ const Footer: React.FC = () => {
 
         {/* contact info */}
         <div className="flex flex-col gap-2">
-          <h4 className="font-semibold text-white">Contact</h4>
-          <p className="text-gray-300 text-sm" onClick={openMail}>
+          <h4 className="font-semibold text-white cursor-default">Contact</h4>
+          <p className="text-gray-300 text-sm cursor-default" onClick={openMail}>
             Email: <span className="cursor-pointer hover:text-white">gunasinghe.info@gmail.com</span>
           </p>
-          <p className="text-gray-300 text-sm" onClick={openPhone}>
+          <p className="text-gray-300 text-sm cursor-default" onClick={openPhone}>
             Phone: <span className="cursor-pointer hover:text-white">+94 70 79 79095</span>
           </p>
 
@@ -106,7 +106,7 @@ const Footer: React.FC = () => {
       </div>
 
       {/* legal section */}
-      <div className="mt-8 border-t border-gray-700 pt-4 text-center text-gray-300 text-sm md:text-base max-w-6xl mx-auto px-4">
+      <div className="mt-8 border-t border-gray-700 pt-4 text-center text-gray-300 text-sm md:text-base max-w-6xl mx-auto px-4 cursor-default">
         <div className="flex flex-col md:flex-row items-center justify-center gap-2">
           <span>© 2025 Charaka Gunasinghe. All rights reserved.</span>
           <span className="hidden md:inline">|</span>

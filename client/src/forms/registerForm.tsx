@@ -104,7 +104,7 @@ const RegisterForm: React.FC<AuthFormProps> = ({ switchForm }) => {
           setTimeout(() => {
             switchForm();
             setPopupMessage(null);
-          }, 10000);
+          }, 8000);
         }
       } catch (error: any) {
         const responseData = error.response?.data?.response?.data;
@@ -144,7 +144,7 @@ const RegisterForm: React.FC<AuthFormProps> = ({ switchForm }) => {
   }, [password, confirmPassword]);
 
   return (
-    <div className="flex w-full items-center justify-center px-5">
+    <div className="flex w-full items-center justify-center px-5 cursor-default">
       {/* input card */}
       <div className="flex flex-col gap-4 w-full max-w-lg sm:max-w-md md:max-w-lg lg:max-w-sm p-6 rounded-2xl bg-white/30 backdrop-blur-md border border-gray-200 shadow-lg">
         {/* card heading */}

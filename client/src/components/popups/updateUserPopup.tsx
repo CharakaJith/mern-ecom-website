@@ -69,7 +69,7 @@ const UpdateUserPopup: React.FC<UpdateUserPopupProp> = ({ user, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4 cursor-default">
       {/* popup display card */}
       <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-sm sm:max-w-md relative flex flex-col gap-4">
         {/* card heading */}
