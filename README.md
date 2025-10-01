@@ -94,7 +94,7 @@
    VITE_CONTACT_PHONE=<your contact number>
    ```
 
-### Notes
+#### Notes
 
 - **For JWT secrets:** The <secure random string> values for `ACCESS_TOKEN_SECRET` and `REFRESH_TOKEN_SECRET` should be generated securely, for example using crypto.randomBytes in Node.js or a trusted online generator.
 - **For server and client ports:** Ensure that the `PORT` in the server `.env` and `VITE_API_BASE_URL` in the client `.env` match, especially when running the application via Docker, to enable proper communication between frontend and backend.
