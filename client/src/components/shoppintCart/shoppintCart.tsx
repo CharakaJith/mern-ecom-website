@@ -59,7 +59,7 @@ const ShoppingCart: React.FC = () => {
       const accessToken = sessionStorage.getItem('accessToken');
       if (accessToken) {
         const res = await api.post(
-          '/api/v1/purchase',
+          '/api/v1/order',
           {
             items: itemsDetails,
           },
@@ -70,14 +70,14 @@ const ShoppingCart: React.FC = () => {
           },
         );
         if (res.data.success) {
-          const purchaseId = res.data.response.data.purchase._id;
+          const orderId = res.data.response.data.order._id;
 
           clearCart();
           setIsError(false);
           setError([]);
 
-          // go to purchase details page
-          navigate(`/purchase/details/${purchaseId}`, {
+          // go to order details page
+          navigate(`/order/details/${orderId}`, {
             state: { showOrderPlaced: true },
           });
         }

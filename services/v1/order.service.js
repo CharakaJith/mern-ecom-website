@@ -1,18 +1,19 @@
 const CustomError = require('../../util/customError');
-const purchaseRepo = require('../../repos/v1/purchase.repo');
-const fieldValidator = require('../../util/fieldValidator');
 const logger = require('../../middleware/log/logger');
+const itemRepo = require('../../repos/v1/item.repo');
+const orderRepo = require('../../repos/v1/order.repo');
+const fieldValidator = require('../../util/fieldValidator');
+const emailService = require('../email.service');
 
 const { LOG_TYPE } = require('../../constants/logger.constants');
 const { STATUS_CODE } = require('../../constants/app.constants');
 const { RESPONSE, JWT } = require('../../common/messages');
-const itemRepo = require('../../repos/v1/item.repo');
 
-const purchaseService = {
-  createNewPurchase: async (data) => {
-    const { items, userId } = data;
+const orderService = {
+  createNewOrder: async (data) => {
+    const { items, userId, email } = data;
 
-    // validate purchase details
+    // validate order details
     const errorArray = [];
     for (const item of items) {
       const { itemId, price, quantity, size } = item;
@@ -72,41 +73,44 @@ const purchaseService = {
     // calculate total
     const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-    // create new purchase
-    const purchaseData = {
+    // create new order
+    const orderData = {
       userId: userId,
       items: items,
       totalPrice: total,
     };
-    const newPurchase = await purchaseRepo.insert(purchaseData);
+    const newOrder = await orderRepo.insert(orderData);
+
+    // send confrimation email
+    await emailService.sendEmail(email, newOrder);
 
     return {
       success: true,
       status: STATUS_CODE.CREATED,
       data: {
-        purchase: newPurchase,
+        order: newOrder,
       },
     };
   },
 
-  getAllPurchaseForUser: async (userId) => {
-    const purchases = await purchaseRepo.getAllByUserId(userId);
+  getAllOrdersForUser: async (userId) => {
+    const orders = await orderRepo.getAllByUserId(userId);
 
     return {
       success: true,
       status: STATUS_CODE.OK,
       data: {
-        purchases: purchases,
+        orders: orders,
       },
     };
   },
 
-  getPurchaseById: async (data) => {
-    const { purchaseId, userId } = data;
+  getOrderById: async (data) => {
+    const { orderId, userId } = data;
 
-    // sanitize purchase id
+    // sanitize order id
     const errorArray = [];
-    errorArray.push(await fieldValidator.validate_objectId(purchaseId, 'purchase id'));
+    errorArray.push(await fieldValidator.validate_objectId(orderId, 'order id'));
 
     // check request data
     const filteredErrors = errorArray.filter((obj) => obj !== 1);
@@ -120,14 +124,14 @@ const purchaseService = {
       };
     }
 
-    // get purchase
-    const purchase = await purchaseRepo.getById(purchaseId);
-    if (!purchase) {
-      throw new CustomError(RESPONSE.PURCHASE.NOT_FOUND, STATUS_CODE.NOT_FOUND);
+    // get order
+    const order = await orderRepo.getById(orderId);
+    if (!order) {
+      throw new CustomError(RESPONSE.ORDER.NOT_FOUND, STATUS_CODE.NOT_FOUND);
     }
 
-    // check purchase belong to user
-    if (purchase.userId._id.toString() !== userId) {
+    // check order belong to user
+    if (order.userId._id.toString() !== userId) {
       throw new CustomError(JWT.AUTH.FORBIDDEN, STATUS_CODE.FORBIDDON);
     }
 
@@ -135,10 +139,10 @@ const purchaseService = {
       success: true,
       status: STATUS_CODE.OK,
       data: {
-        purchase,
+        order,
       },
     };
   },
 };
 
-module.exports = purchaseService;
+module.exports = orderService;

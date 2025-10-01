@@ -28,9 +28,9 @@ const Account: React.FC = () => {
     window.location.href = '/';
   };
 
-  // go to purchase histor
+  // go to order histor
   const goToHistory = () => {
-    navigate('/purchase');
+    navigate('/order');
   };
 
   // fetch user details
@@ -92,7 +92,7 @@ const Account: React.FC = () => {
 
               <div className="relative inline-block group">
                 <p className="italic text-sm md:text-base cursor-pointer" onClick={goToHistory}>
-                  View past purchases
+                  View past orders
                 </p>
                 <span className="absolute left-0 -bottom-1 h-[2px] bg-black transition-all duration-300 w-0 group-hover:w-full"></span>
               </div>

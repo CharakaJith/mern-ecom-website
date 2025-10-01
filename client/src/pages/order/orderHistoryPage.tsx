@@ -2,9 +2,9 @@ import NavBar from '@/components/navbar/navbar';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthPopup from '@/components/popups/authPopup';
-import PurchaseDetails from '@/components/purchase/purchaseDetails';
+import OrderHistory from '@/components/order/orderHistory';
 
-const PurchaseDetailsPage: React.FC = () => {
+const OrderHistoryPage: React.FC = () => {
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const navigate = useNavigate();
 
@@ -34,7 +34,7 @@ const PurchaseDetailsPage: React.FC = () => {
       </header>
 
       <main className="flex-grow flex justify-center items-center">
-        <PurchaseDetails />
+        <OrderHistory />
       </main>
 
       {showLoginPopup && <AuthPopup onClose={handleClosePopup} onLogin={handleLoginPopup} />}
@@ -42,4 +42,4 @@ const PurchaseDetailsPage: React.FC = () => {
   );
 };
 
-export default PurchaseDetailsPage;
+export default OrderHistoryPage;

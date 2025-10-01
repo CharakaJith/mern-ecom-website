@@ -1,4 +1,4 @@
-export interface PurchaseItem {
+interface OrderItem {
   _id: string;
   itemId: string | { _id: string; name: string };
   price: number;
@@ -6,10 +6,10 @@ export interface PurchaseItem {
   size: string;
 }
 
-export interface Purchase {
+export interface Order {
   _id: string;
   userId: string | { _id: string; name: string };
-  items: PurchaseItem[];
+  items: OrderItem[];
   totalPrice: number;
   orderDate: string;
   createdAt: string;

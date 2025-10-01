@@ -1,4 +1,4 @@
-import type { Purchase } from '@/types/purchase';
+import type { Order } from '@/types/order';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
@@ -10,45 +10,45 @@ const api = axios.create({
   withCredentials: true,
 });
 
-const PurchaseHistory: React.FC = () => {
-  const [purchaseList, setPurchaseList] = useState<Purchase[] | null>([]);
+const OrderHistory: React.FC = () => {
+  const [orderList, setOrderList] = useState<Order[] | null>([]);
   const [error, setError] = useState<string[]>([]);
   const [isError, setIsError] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
-  // fetch all purchases
-  const fetchAllPurchases = async (accessToken: string) => {
+  // fetch all orders
+  const fetchAllOrders = async (accessToken: string) => {
     try {
       // send request
-      const { data } = await api.get('/api/v1/purchase', {
+      const { data } = await api.get('/api/v1/order', {
         headers: {
           Authorization: `"${accessToken}"`,
         },
       });
 
       if (data.success) {
-        setPurchaseList(data.response.data.purchases);
+        setOrderList(data.response.data.orders);
         setIsError(false);
         setError([]);
       } else {
-        setError([data.response.data.message || 'Failed to fetch all purchases']);
+        setError([data.response.data.message || 'Failed to fetch all orders']);
         setIsError(true);
       }
     } catch (error: any) {
-      setError([error.message || 'Failed to fetch all purchases']);
+      setError([error.message || 'Failed to fetch all orders']);
       setIsError(true);
     }
   };
 
   // go to details page
-  const goToDetails = (purchaseId: string) => {
-    navigate(`/purchase/details/${purchaseId}`);
+  const goToDetails = (orderId: string) => {
+    navigate(`/order/details/${orderId}`);
   };
 
   useEffect(() => {
     const accessToken = sessionStorage.getItem('accessToken');
-    if (accessToken) fetchAllPurchases(accessToken);
+    if (accessToken) fetchAllOrders(accessToken);
   }, []);
 
   return (
@@ -66,10 +66,10 @@ const PurchaseHistory: React.FC = () => {
         )}
 
         {/* no orders */}
-        {purchaseList && purchaseList.length === 0 && !isError && <p className="text-gray-600 italic text-center">You have no past orders.</p>}
+        {orderList && orderList.length === 0 && !isError && <p className="text-gray-600 italic text-center">You have no past orders.</p>}
 
         {/* order list */}
-        {purchaseList?.map((order) => (
+        {orderList?.map((order) => (
           <div key={order._id} className="flex flex-col gap-3 border rounded-lg p-4 shadow-sm bg-gray-100 cursor-pointer hover:bg-gray-200">
             {/* order summary */}
             <div
@@ -95,4 +95,4 @@ const PurchaseHistory: React.FC = () => {
   );
 };
 
-export default PurchaseHistory;
+export default OrderHistory;

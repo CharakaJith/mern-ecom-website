@@ -10,6 +10,6 @@ export interface NavLink {
 export const NAV_LINKS: NavLink[] = [
   { href: '/', label: 'Home', icon: HomeIcon },
   { href: '/cart', label: 'Cart', icon: ShoppingCartIcon },
-  { href: '/purchase', label: 'Order History', icon: HistoryIcon },
+  { href: '/order', label: 'Order History', icon: HistoryIcon },
   { href: '/account', label: 'My Account', icon: UserIcon },
 ];

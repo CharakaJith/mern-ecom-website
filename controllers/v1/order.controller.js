@@ -1,13 +1,14 @@
-const purchaseService = require('../../services/v1/purchase.service');
+const orderService = require('../../services/v1/order.service');
 
-const purchaseController = {
+const orderController = {
   checkout: async (req, res, next) => {
     try {
       const { items } = req.body;
       const userId = req.user.userId;
-      const purchaseData = { items, userId };
+      const email = req.user.email;
+      const orderData = { items, userId, email };
 
-      const response = await purchaseService.createNewPurchase(purchaseData);
+      const response = await orderService.createNewOrder(orderData);
       const { success, status, data } = response;
 
       res.status(status).json({
@@ -26,7 +27,7 @@ const purchaseController = {
     try {
       const userId = req.user.userId;
 
-      const response = await purchaseService.getAllPurchaseForUser(userId);
+      const response = await orderService.getAllOrdersForUser(userId);
       const { success, status, data } = response;
 
       res.status(status).json({
@@ -43,11 +44,11 @@ const purchaseController = {
 
   getById: async (req, res, next) => {
     try {
-      const purchaseId = req.params.id;
+      const orderId = req.params.id;
       const userId = req.user.userId;
-      const getData = { purchaseId, userId };
+      const getData = { orderId, userId };
 
-      const response = await purchaseService.getPurchaseById(getData);
+      const response = await orderService.getOrderById(getData);
       const { success, status, data } = response;
 
       res.status(status).json({
@@ -63,4 +64,4 @@ const purchaseController = {
   },
 };
 
-module.exports = purchaseController;
+module.exports = orderController;

@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import MessagePopup from '@/components/popups/messagePopup';
-import type { Purchase } from '@/types/purchase';
+import type { Order } from '@/types/order';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -12,43 +12,43 @@ const api = axios.create({
   withCredentials: true,
 });
 
-const PurchaseDetails: React.FC = () => {
-  const { purchaseId } = useParams<{ purchaseId: string }>();
+const orderDetails: React.FC = () => {
+  const { orderId } = useParams<{ orderId: string }>();
   const location = useLocation();
 
-  const [purchase, setPurchase] = useState<Purchase | null>(null);
+  const [order, setOrder] = useState<Order | null>(null);
   const [error, setError] = useState<string[]>([]);
   const [isError, setIsError] = useState<boolean>(false);
   const [showOrderPlaced, setShowOrderPlaced] = useState(false);
 
-  // fetch purchase details
-  const fetchPurchaseDetails = async (accessToken: string) => {
+  // fetch order details
+  const fetchorderDetails = async (accessToken: string) => {
     try {
       // send request
-      const { data } = await api.get(`/api/v1/purchase/${purchaseId}`, {
+      const { data } = await api.get(`/api/v1/order/${orderId}`, {
         headers: {
           Authorization: `"${accessToken}"`,
         },
       });
 
       if (data.success) {
-        setPurchase(data.response.data.purchase);
+        setOrder(data.response.data.order);
         setIsError(false);
         setError([]);
       } else {
-        setError([data.response.data.message || 'Failed to fetch purchase']);
+        setError([data.response.data.message || 'Failed to fetch order']);
         setIsError(true);
       }
     } catch (error: any) {
-      setError([error.message || 'Failed to fetch purchase']);
+      setError([error.message || 'Failed to fetch order']);
       setIsError(true);
     }
   };
 
   useEffect(() => {
     const accessToken = sessionStorage.getItem('accessToken');
-    if (accessToken) fetchPurchaseDetails(accessToken);
-  }, [purchaseId]);
+    if (accessToken) fetchorderDetails(accessToken);
+  }, [orderId]);
 
   useEffect(() => {
     if (location.state?.showOrderPlaced) {
@@ -58,10 +58,10 @@ const PurchaseDetails: React.FC = () => {
 
   return (
     <div className="flex justify-center items-start pt-15 md:pt-24 pb-10 px-4 cursor-default">
-      {/* purchase display card */}
+      {/* order display card */}
       <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-[1200px] flex flex-col gap-6">
         {/* card heading */}
-        <h1 className="text-2xl md:text-3xl font-bold text-center md:text-left">Purchase Details</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-center md:text-left">order Details</h1>
 
         {/* error boxes */}
         {isError && error.length > 0 && (
@@ -72,26 +72,26 @@ const PurchaseDetails: React.FC = () => {
           </div>
         )}
 
-        {purchase ? (
+        {order ? (
           <>
-            {/* purchase details */}
+            {/* order details */}
             <div className="flex flex-col gap-1 mb-2">
               <p>
-                <span className="font-semibold text-base md:text-lg">Order ID:</span> {purchase._id}
+                <span className="font-semibold text-base md:text-lg">Order ID:</span> {order._id}
               </p>
               <p>
                 <span className="font-semibold text-base md:text-lg">Name:</span>{' '}
-                {typeof purchase.userId === 'object' ? purchase.userId.name : 'Unknown User'}
+                {typeof order.userId === 'object' ? order.userId.name : 'Unknown User'}
               </p>
               <p>
-                <span className="font-semibold text-base md:text-lg">Order date:</span> {new Date(purchase.orderDate).toLocaleDateString('en-GB')}
+                <span className="font-semibold text-base md:text-lg">Order date:</span> {new Date(order.orderDate).toLocaleDateString('en-GB')}
               </p>
             </div>
 
-            {/* purchase items */}
+            {/* order items */}
             <h2 className="text-base font-semibold mb-2 md:text-xl">Items</h2>
             <div className="flex flex-col gap-4">
-              {purchase.items.map((item) => (
+              {order.items.map((item) => (
                 <div key={item._id} className="flex flex-col sm:flex-row justify-between p-4 border rounded-lg shadow-sm gap-2 bg-gray-100">
                   {/* left panel- item information */}
                   <div className="flex flex-col">
@@ -121,11 +121,11 @@ const PurchaseDetails: React.FC = () => {
 
             <div className="flex justify-between items-center p-4 bg-green-300 rounded-lg font-bold text-lg">
               <span>Total</span>
-              <span>Rs. {purchase.totalPrice.toLocaleString()}.00</span>
+              <span>Rs. {order.totalPrice.toLocaleString()}.00</span>
             </div>
           </>
         ) : (
-          <p className="text-gray-600 text-center italic">Loading purchase details...</p>
+          <p className="text-gray-600 text-center italic">Loading order details...</p>
         )}
       </div>
 
@@ -134,4 +134,4 @@ const PurchaseDetails: React.FC = () => {
   );
 };
 
-export default PurchaseDetails;
+export default orderDetails;

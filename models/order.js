@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
 
-const CATEGORY = require('../enum/clothingCategory');
 const SIZE = require('../enum/clothingSizes');
 
-const purchaseSchema = new mongoose.Schema(
+const orderSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -17,6 +16,10 @@ const purchaseSchema = new mongoose.Schema(
           ref: 'ClothingItem',
           required: true,
         },
+        name: {
+          type: Number,
+          required: true,
+        },
         price: {
           type: Number,
           required: true,
@@ -28,6 +31,7 @@ const purchaseSchema = new mongoose.Schema(
         },
         size: {
           type: String,
+          enum: SIZE.values,
           required: true,
         },
       },
@@ -46,4 +50,4 @@ const purchaseSchema = new mongoose.Schema(
   },
 );
 
-module.exports = mongoose.model('Purchase', purchaseSchema);
+module.exports = mongoose.model('Order', orderSchema);

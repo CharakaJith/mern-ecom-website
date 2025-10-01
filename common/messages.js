@@ -27,8 +27,8 @@ module.exports = {
       NOT_FOUND: 'Invalid item id',
       INVALID_SIZE: (size, availableSizes) => `Size ${size} is not available. Available sizes: ${availableSizes.join(', ')}`,
     },
-    PURCHASE: {
-      NOT_FOUND: 'Invalid purchase id',
+    ORDER: {
+      NOT_FOUND: 'Invalid order id',
     },
   },
 
@@ -67,6 +67,14 @@ module.exports = {
     AUTH: {
       FAILED: 'Authentication failed',
       FORBIDDEN: 'Access denied',
+    },
+  },
+
+  // email service messages
+  MAIL: {
+    SEND: {
+      SUCCESS: (mail) => `Email sent successfully: ${mail}`,
+      FAILED: (error) => `Failed to send email: ${error}`,
     },
   },
 };

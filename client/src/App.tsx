@@ -4,8 +4,8 @@ import LandingPage from './pages/LandingPage';
 import ProductDetailsPage from './pages/ProductDetailsPage';
 import AccountPage from './pages/AccountPage';
 import CartPage from './pages/CartPage';
-import PurchaseHistoryPage from './pages/purchase/purchaseHistoryPage';
-import PurchaseDetailsPage from './pages/purchase/purchaseDetailsPage';
+import OrderHistoryPage from './pages/order/orderHistoryPage';
+import OrderDetailsPage from './pages/order/orderDetailsPage';
 import AuthPage from './pages/AuthPage';
 import NotFoundPage from './pages/NotFoundPage';
 
@@ -17,8 +17,8 @@ function App() {
         <Route path="/item/:itemId" element={<ProductDetailsPage />} />
         <Route path="/account" element={<AccountPage />} />
         <Route path="/cart" element={<CartPage />} />
-        <Route path="/purchase" element={<PurchaseHistoryPage />} />
-        <Route path="/purchase/details/:purchaseId" element={<PurchaseDetailsPage />} />
+        <Route path="/order" element={<OrderHistoryPage />} />
+        <Route path="/order/details/:orderId" element={<OrderDetailsPage />} />
         <Route path="/auth" element={<AuthPage />} />
 
         <Route path="*" element={<NotFoundPage />} />
