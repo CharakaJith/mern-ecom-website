@@ -85,7 +85,7 @@ const OrderHistory: React.FC = () => {
                 <span className="font-semibold">Order Date:</span> {new Date(order.orderDate).toLocaleDateString('en-GB')}
               </p>
               <p>
-                <span className="font-semibold">Total Price:</span> Rs. {order.totalPrice.toLocaleString()}.00
+                <span className="font-semibold">Total Price:</span> LKR {order.totalPrice.toLocaleString()}.00
               </p>
             </div>
           </div>

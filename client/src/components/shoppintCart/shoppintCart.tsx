@@ -49,6 +49,7 @@ const ShoppingCart: React.FC = () => {
   const handleCheckout = async () => {
     const itemsDetails = cart.map((item) => ({
       itemId: item._id,
+      name: item.name,
       quantity: item.quantity,
       size: item.size,
       price: item.price,
@@ -126,7 +127,7 @@ const ShoppingCart: React.FC = () => {
                   <div className="flex-1">
                     <h2 className="font-semibold text-base sm:text-lg">{item.name}</h2>
                     <p className="text-sm text-gray-500">Size: {item.size}</p>
-                    <p className="text-gray-700 text-sm sm:text-base">Rs. {item.price.toLocaleString()}.00</p>
+                    <p className="text-gray-700 text-sm sm:text-base">LKR {item.price.toLocaleString()}.00</p>
                   </div>
 
                   {/* quantity section */}
@@ -173,7 +174,7 @@ const ShoppingCart: React.FC = () => {
             {/* total section */}
             <div className="mt-6 border-t pt-4 flex flex-col sm:flex-row justify-between items-center gap-4">
               {/* total */}
-              <h2 className="text-lg sm:text-xl font-bold">Total: Rs. {totalPrice.toLocaleString()}.00</h2>
+              <h2 className="text-lg sm:text-xl font-bold">Total: LKR {totalPrice.toLocaleString()}.00</h2>
 
               {/* button section */}
               <div className="flex gap-3 w-full sm:w-auto justify-center sm:justify-end">

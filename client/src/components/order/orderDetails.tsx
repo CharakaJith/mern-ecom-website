@@ -109,10 +109,10 @@ const orderDetails: React.FC = () => {
                       <span className="font-semibold">Quantity:</span> {item.quantity}
                     </p>
                     <p>
-                      <span className="font-semibold">Price:</span> Rs. {item.price.toLocaleString()}.00
+                      <span className="font-semibold">Price:</span> LKR {item.price.toLocaleString()}.00
                     </p>
                     <p>
-                      <span className="font-semibold">Subtotal:</span> Rs. {(item.price * item.quantity).toLocaleString()}.00
+                      <span className="font-semibold">Subtotal:</span> LKR {(item.price * item.quantity).toLocaleString()}.00
                     </p>
                   </div>
                 </div>
@@ -121,7 +121,7 @@ const orderDetails: React.FC = () => {
 
             <div className="flex justify-between items-center p-4 bg-green-300 rounded-lg font-bold text-lg">
               <span>Total</span>
-              <span>Rs. {order.totalPrice.toLocaleString()}.00</span>
+              <span>LKR {order.totalPrice.toLocaleString()}.00</span>
             </div>
           </>
         ) : (

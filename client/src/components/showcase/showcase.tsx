@@ -140,7 +140,7 @@ const ShowCase: React.FC = () => {
                 </p>
 
                 <div className="mt-4 flex justify-between items-center">
-                  <p className="text-lg font-bold cursor-default">Rs. {item.price.toLocaleString()}.00</p>
+                  <p className="text-lg font-bold cursor-default">LKR {item.price.toLocaleString()}.00</p>
                   <Button className="bg-gray-700 hover:bg-gray-900 cursor-pointer" onClick={() => goToDetails(item._id)}>
                     Buy Now
                   </Button>

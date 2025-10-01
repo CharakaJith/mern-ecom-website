@@ -16,10 +16,11 @@ const orderService = {
     // validate order details
     const errorArray = [];
     for (const item of items) {
-      const { itemId, price, quantity, size } = item;
+      const { itemId, name, price, quantity, size } = item;
 
       const validations = [
         { field: 'itemId', result: await fieldValidator.validate_objectId(itemId, 'item id') },
+        { field: 'name', result: await fieldValidator.validate_string(name, 'item name') },
         { field: 'price', result: await fieldValidator.validate_number(price, 'item price') },
         { field: 'quantity', result: await fieldValidator.validate_number(quantity, 'item quantity') },
         { field: 'size', result: await fieldValidator.validate_string(size, 'item size') },
