@@ -65,6 +65,7 @@ const userService = {
 
   userLogin: async (data) => {
     const { email, password } = data;
+
     // validate user details
     const errorArray = [];
     errorArray.push(await fieldValidator.validate_email(email, 'email'));

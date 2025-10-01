@@ -25,6 +25,7 @@ module.exports = {
     },
     ITEM: {
       NOT_FOUND: 'Invalid item id',
+      INVALID_SIZE: (size, availableSizes) => `Size ${size} is not available. Available sizes: ${availableSizes.join(', ')}`,
     },
   },
 
