@@ -77,7 +77,7 @@ const orderDetails: React.FC = () => {
             {/* order details */}
             <div className="flex flex-col gap-1 mb-2">
               <p>
-                <span className="font-semibold text-base md:text-lg">Order ID:</span> {order._id}
+                <span className="font-semibold text-base md:text-lg">Order ID:</span> {order.displayId}
               </p>
               <p>
                 <span className="font-semibold text-base md:text-lg">Name:</span>{' '}

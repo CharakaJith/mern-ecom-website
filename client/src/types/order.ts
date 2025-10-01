@@ -8,6 +8,7 @@ interface OrderItem {
 
 export interface Order {
   _id: string;
+  displayId: string;
   userId: string | { _id: string; name: string };
   items: OrderItem[];
   totalPrice: number;

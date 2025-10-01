@@ -79,7 +79,7 @@ const OrderHistory: React.FC = () => {
               className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2"
             >
               <p>
-                <span className="font-semibold">Order ID:</span> {order._id}
+                <span className="font-semibold">Order ID:</span> {order.displayId}
               </p>
               <p>
                 <span className="font-semibold">Order Date:</span> {new Date(order.orderDate).toLocaleDateString('en-GB')}

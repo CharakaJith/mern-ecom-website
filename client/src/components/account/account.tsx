@@ -84,7 +84,10 @@ const Account: React.FC = () => {
             <div className="flex-1 flex flex-col gap-4 items-center sm:items-center justify-center px-4">
               <div className="font-bold text-2xl md:text-4xl cursor-default">{user.name}</div>
 
-              <p className="text-gray-700 text-base md:text-lg cursor-default">{user.email}</p>
+              <div className="gap-0">
+                <p className="text-gray-700 text-base md:text-lg cursor-default">{user.email}</p>
+                <p className="text-gray-700 text-base md:text-lg cursor-default">{user.displayId}</p>
+              </div>
 
               <div className={`px-3 py-1 rounded-full text-white text-sm cursor-default ${user.isActive ? 'bg-green-600' : 'bg-red-600'}`}>
                 {user.isActive ? 'Active' : 'Inactive'}
@@ -92,7 +95,7 @@ const Account: React.FC = () => {
 
               <div className="relative inline-block group">
                 <p className="italic text-sm md:text-base cursor-pointer" onClick={goToHistory}>
-                  View past orders
+                  Your order history
                 </p>
                 <span className="absolute left-0 -bottom-1 h-[2px] bg-black transition-all duration-300 w-0 group-hover:w-full"></span>
               </div>
