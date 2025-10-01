@@ -1,0 +1,13 @@
+services:
+  app:
+    build: .
+    image: stich_style
+    ports:
+      - '8000:8000' # node backend
+      - '5173:5173' # vite frontend
+    env_file:
+      - .env
+      - client/.env
+    environment:
+      - NODE_ENV=development
+    command: bash -c "npm run seed && npm start"

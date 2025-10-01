@@ -16,11 +16,17 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",
+    "client": "cd client && npm run dev",
+    "start": "concurrently \"npm run dev\" \"npm run client\"",
+    "install:all": "npm install && cd client && npm install",
     "seed": "node seeds/seedClothingItems.js",
+    "docker:up": "docker-compose up --build",
+    "docker:down": "docker-compose down",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "concurrently": "^9.2.1",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
