@@ -159,9 +159,26 @@ The following assumptions were made during the development of this project:
   - **Repository / Data access layer**: Provides an abstraction layer for interacting with the database.
   - **Database**: The mongo db database is used for storing and managing data.
 
+## Identified Future Enhancements
+
+- **Payment Integration:** Implement real payment gateways (Stripe, Payhere) for seamless checkout and secure transactions.
+- **Inventory Management:** Track stock levels for clothing items, automatically updating availability and preventing overselling.
+- **User Roles & Permissions:** Introduce admin, vendor, and customer roles with granular access control.
+- **Wishlist & Favorites:** Allow users to save items for future purchase or create wishlists.  
+- **Product Reviews & Ratings:** Enable users to leave reviews and ratings for purchased items.
+- **Performance Optimization:** Improve API response times and database indexing for high traffic scenarios.
+
+### Declaration
+
+- This project, including all source code and documentation, was developed by me as part of the Aeontrix AI Backend Developer technical assessment.
+- Product descriptions and documentation were reviewed and refined using ChatGPT to ensure proper grammar, clarity, and professional English. 
+- All images used in this project are sourced from the Carnage and Nolimit websites, and the prices reflect those listed on these sites. The project is provided for educational and evaluation purposes only.
+- ChatGPT was used as a guidance for UI component styling (CSS) and layout decisions. All backend functionality, including API implementation, database interactions, and business logic, was fully developed independently by the author.
+
 ## Documentations
 
 - [Postman API documentation](https://documenter.getpostman.com/view/28014836/2sB3QFSD9D)
+- [System architecture diagram](https://lucid.app/lucidchart/bd680031-4228-42f3-a2d0-46b5165bd647/edit?viewport_loc=-1286%2C-641%2C4178%2C1922%2C0_0&invitationId=inv_d3b50108-8771-4814-9e7c-9907878a5e91)
 
 ## Contact
 
