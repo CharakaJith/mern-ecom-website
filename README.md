@@ -2,10 +2,11 @@
   <h1="center">MERN Stack E-Commerce Website</h1>
 </div>
 
-![Landing page](./images/landing.png)
-![Product details page](./images/product.png)
-![Shopping cart page](./images/cart.png)
-![Order details page](./images/order.png)
+![Landing page](./public/screenshots/landing.png)
+![Product details page](./public/screenshots/product.png)
+![Shopping cart page](./public/screenshots/cart.png)
+![Order details page](./public/screenshots/order.png)
+![Confirmation email](./public/screenshots/mail.png)
 
 ### This project is a MERN stack e-commerce web application developed as part of the Aeontrix AI Backend Developer technical assessment. The application focuses on backend functionality and provides a robust and secure foundation for an online clothing store.
 
@@ -57,6 +58,7 @@
    New-Item -Path . -Name ".env" -ItemType "File"
    ```
 2. Open the `.env` file and update the variables
+
    ```
    ## environment variables
    ENV=development
@@ -71,7 +73,7 @@
 
    ## nodemailer config (these fields are required to send emails via nodemailer)
    EMAIL_SERVICE=gmail
-   EMAIL_USER=<gmail> 
+   EMAIL_USER=<gmail>
    EMAIL_PASS=<gmail pass key>
 
    ## test (optional)
@@ -85,10 +87,11 @@
    New-Item -Path . -Name ".env" -ItemType "File"
    ```
 2. Open the `.env` file and update the variables
+
    ```
    ## base url
    VITE_API_BASE_URL=http://localhost:8000 (or the port you have used)
-    
+
    ## contact details for footer
    VITE_CONTACT_EMAIL=<your email>
    VITE_CONTACT_PHONE=<your contact number>
@@ -214,11 +217,11 @@ The following assumptions were made during the development of this project:
 
 - **Client-side**
 
-  - **Wishlist & Favorites:** Allow users to save items for future purchase or create wishlists.  
+  - **Wishlist & Favorites:** Allow users to save items for future purchase or create wishlists.
   - **Product Reviews & Ratings:** Enable users to leave reviews and ratings for purchased items.
   - **Improved Client-Side Validation:** Enhance form validations, error handling, and notifications.
   - **Dark/Light Mode:** Allow users to switch between themes dynamically.
- 
+
 - **Server-side**
 
   - **Payment Integration:** Implement real payment gateways (Stripe, Payhere) for seamless checkout and secure transactions.
@@ -232,7 +235,7 @@ The following assumptions were made during the development of this project:
 ### Declaration
 
 - This project, including all source code and documentation, was developed by me as part of the Aeontrix AI Backend Developer technical assessment.
-- Product descriptions and documentation were reviewed and refined using ChatGPT to ensure proper grammar, clarity, and professional English. 
+- Product descriptions and documentation were reviewed and refined using ChatGPT to ensure proper grammar, clarity, and professional English.
 - All images used in this project are sourced from the Carnage and Nolimit websites, and the prices reflect those listed on these sites. The project is provided for educational and evaluation purposes only.
 - ChatGPT was used as a guidance for UI component styling (CSS) and layout decisions. All backend functionality, including API implementation, database interactions, and business logic, as well as the thought process was independently concluded by the author.
 
@@ -240,6 +243,7 @@ The following assumptions were made during the development of this project:
 
 - [Postman API documentation](https://documenter.getpostman.com/view/28014836/2sB3QFSD9D)
 - [System architecture diagram](https://lucid.app/lucidchart/bd680031-4228-42f3-a2d0-46b5165bd647/edit?viewport_loc=-1286%2C-641%2C4178%2C1922%2C0_0&invitationId=inv_d3b50108-8771-4814-9e7c-9907878a5e91)
+- [Implementation notes](./public/files/Implementation%20Notes.pdf)
 
 ## Contact
 
