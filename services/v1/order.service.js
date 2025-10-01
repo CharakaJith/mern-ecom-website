@@ -4,6 +4,7 @@ const itemRepo = require('../../repos/v1/item.repo');
 const orderRepo = require('../../repos/v1/order.repo');
 const fieldValidator = require('../../util/fieldValidator');
 const emailService = require('../email.service');
+const displayIdGenerator = require('../../common/displayIdGenerator');
 
 const { LOG_TYPE } = require('../../constants/logger.constants');
 const { STATUS_CODE } = require('../../constants/app.constants');
@@ -74,8 +75,12 @@ const orderService = {
     // calculate total
     const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
+    // generate display id
+    const displayId = await displayIdGenerator.ORDER_ID();
+
     // create new order
     const orderData = {
+      displayId: displayId,
       userId: userId,
       items: items,
       totalPrice: total,

@@ -4,6 +4,10 @@ const SIZE = require('../enum/clothingSizes');
 
 const orderSchema = new mongoose.Schema(
   {
+    displayId: {
+      type: String,
+      required: true,
+    },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',

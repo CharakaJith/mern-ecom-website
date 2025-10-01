@@ -5,6 +5,7 @@ const fieldValidator = require('../../util/fieldValidator');
 const userRepo = require('../../repos/v1/user.repo');
 const jwtService = require('../jwt.service');
 const logger = require('../../middleware/log/logger');
+const displayIdGenerator = require('../../common/displayIdGenerator');
 
 const { LOG_TYPE } = require('../../constants/logger.constants');
 const { STATUS_CODE } = require('../../constants/app.constants');
@@ -41,8 +42,12 @@ const userService = {
     // hash password
     const encryptedPassword = await bcrypt.hash(password, 10);
 
+    // generate display id
+    const displayId = await displayIdGenerator.USER_ID();
+
     // create new user
     const userData = {
+      displayId: displayId,
       name: name,
       email: email,
       password: encryptedPassword,

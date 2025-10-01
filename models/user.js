@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema(
   {
+    displayId: {
+      type: String,
+      required: true,
+    },
     name: {
       type: String,
       required: true,
@@ -25,7 +29,7 @@ const userSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 module.exports = mongoose.model('User', userSchema);

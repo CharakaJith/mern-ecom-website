@@ -39,10 +39,10 @@ const emailService = {
 
       const html = `
         <div style="font-family:Arial,sans-serif; padding:20px; color:#333;">
-          <h2 style="color:#2c3e50;">Stich & Style - Order Confirmation</h2>
+          <h2 style="color:#2c3e50;">We have recieved your order - ${order.displayId}</h2>
           <p>Thank you for your order! Here are your order details:</p>
           
-          <p><strong>order ID:</strong> ${order._id}</p>
+          <p><strong>order ID:</strong> ${order.displayId}</p>
           <p><strong>Placed Date:</strong> ${placedDate}</p>
 
           <table style="border-collapse:collapse; width:100%; margin-top:15px;">
@@ -71,7 +71,7 @@ const emailService = {
       const info = await transporter.sendMail({
         from: `"Stich & Style" <${process.env.EMAIL_USER}>`,
         to,
-        subject: 'We’ve received your order',
+        subject: 'Order Confrimation',
         html,
       });
 
