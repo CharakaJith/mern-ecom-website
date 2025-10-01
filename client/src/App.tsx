@@ -4,6 +4,7 @@ import LandingPage from './pages/LandingPage';
 import ProductDetailsPage from './pages/ProductDetailsPage';
 import AccountPage from './pages/AccountPage';
 import CartPage from './pages/CartPage';
+import PurchaseDetailsPage from './pages/purchase/purchaseDetailsPage';
 import AuthPage from './pages/AuthPage';
 import NotFoundPage from './pages/NotFoundPage';
 
@@ -15,6 +16,7 @@ function App() {
         <Route path="/item/:itemId" element={<ProductDetailsPage />} />
         <Route path="/account" element={<AccountPage />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/purchase/details/:purchaseId" element={<PurchaseDetailsPage />} />
         <Route path="/auth" element={<AuthPage />} />
 
         <Route path="*" element={<NotFoundPage />} />

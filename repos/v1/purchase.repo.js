@@ -17,7 +17,7 @@ const purchaseRepo = {
 
   getById: async (purchaseId) => {
     try {
-      return await Purchase.findById(purchaseId);
+      return await Purchase.findById(purchaseId).populate('userId', '_id name').populate('items.itemId', 'name');
     } catch (error) {
       throw new CustomError(DAO.FAILED.GET.By_Id(ENTITY.PURCHASE, error), STATUS_CODE.SERVER_ERROR);
     }

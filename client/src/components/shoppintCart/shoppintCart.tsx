@@ -70,12 +70,16 @@ const ShoppingCart: React.FC = () => {
           },
         );
         if (res.data.success) {
+          const purchaseId = res.data.response.data.purchase._id;
+
           clearCart();
           setIsError(false);
           setError([]);
 
           // go to purchase details page
-          navigate('/purchase/details');
+          navigate(`/purchase/details/${purchaseId}`, {
+            state: { showOrderPlaced: true },
+          });
         }
       }
     } catch (error: any) {
@@ -106,7 +110,7 @@ const ShoppingCart: React.FC = () => {
         <div className="flex flex-col sm:flex-row justify-between items-center mb-0 md:mb-4">
           <h1 className="text-xl sm:text-3xl font-bold text-center sm:text-left">Shopping Cart</h1>
           <span className="text-base sm:text-lg text-gray-600 font-semibold mt-2 sm:mt-0 italic">
-            {user ? `Mr/Mrs.  ${user.name}` : 'Please login to checkout'} ({cart.length} items in cart)
+            {user ? `Mr/Mrs.  ${user.name}` : 'Please login to continue'} ({cart.length} items in cart)
           </span>
         </div>
 

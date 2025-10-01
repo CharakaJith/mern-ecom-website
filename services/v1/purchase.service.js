@@ -127,7 +127,7 @@ const purchaseService = {
     }
 
     // check purchase belong to user
-    if (purchase.userId !== userId) {
+    if (purchase.userId._id.toString() !== userId) {
       throw new CustomError(JWT.AUTH.FORBIDDEN, STATUS_CODE.FORBIDDON);
     }
 
