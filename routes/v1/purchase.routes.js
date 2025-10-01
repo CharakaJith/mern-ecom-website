@@ -7,5 +7,7 @@ const purchaseRouter = express.Router();
 purchaseRouter.use(authenticate);
 
 purchaseRouter.post('/', purchaseController.checkout);
+purchaseRouter.get('/', purchaseController.getAll);
+purchaseRouter.get('/:id', purchaseController.getById);
 
 module.exports = purchaseRouter;

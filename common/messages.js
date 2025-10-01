@@ -27,6 +27,9 @@ module.exports = {
       NOT_FOUND: 'Invalid item id',
       INVALID_SIZE: (size, availableSizes) => `Size ${size} is not available. Available sizes: ${availableSizes.join(', ')}`,
     },
+    PURCHASE: {
+      NOT_FOUND: 'Invalid purchase id',
+    },
   },
 
   // field validation messages
@@ -44,6 +47,7 @@ module.exports = {
       GET: {
         All: (entity, error) => `Failed to get all ${entity}: ${error.message}`,
         By_Id: (entity, error) => `Failed to get ${entity} by ID: ${error.message}`,
+        By_UserId: (entity, error) => `Failed to get ${entity} by user ID: ${error.message}`,
         Count: (entity, error) => `Failed to get count ${entity}: ${error.message}`,
         BY_EMAIL: (entity, error) => `Failed to retrieve ${entity} by email: ${error.message}`,
       },

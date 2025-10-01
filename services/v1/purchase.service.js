@@ -5,7 +5,7 @@ const logger = require('../../middleware/log/logger');
 
 const { LOG_TYPE } = require('../../constants/logger.constants');
 const { STATUS_CODE } = require('../../constants/app.constants');
-const { RESPONSE } = require('../../common/messages');
+const { RESPONSE, JWT } = require('../../common/messages');
 const itemRepo = require('../../repos/v1/item.repo');
 
 const purchaseService = {
@@ -85,6 +85,57 @@ const purchaseService = {
       status: STATUS_CODE.CREATED,
       data: {
         purchase: newPurchase,
+      },
+    };
+  },
+
+  getAllPurchaseForUser: async (userId) => {
+    const purchases = await purchaseRepo.getAllByUserId(userId);
+
+    return {
+      success: true,
+      status: STATUS_CODE.OK,
+      data: {
+        purchases: purchases,
+      },
+    };
+  },
+
+  getPurchaseById: async (data) => {
+    const { purchaseId, userId } = data;
+
+    // sanitize purchase id
+    const errorArray = [];
+    errorArray.push(await fieldValidator.validate_objectId(purchaseId, 'purchase id'));
+
+    // check request data
+    const filteredErrors = errorArray.filter((obj) => obj !== 1);
+    if (filteredErrors.length !== 0) {
+      logger(LOG_TYPE.ERROR, false, STATUS_CODE.BAD_REQUEST, filteredErrors);
+
+      return {
+        success: false,
+        status: STATUS_CODE.BAD_REQUEST,
+        data: filteredErrors,
+      };
+    }
+
+    // get purchase
+    const purchase = await purchaseRepo.getById(purchaseId);
+    if (!purchase) {
+      throw new CustomError(RESPONSE.PURCHASE.NOT_FOUND, STATUS_CODE.NOT_FOUND);
+    }
+
+    // check purchase belong to user
+    if (purchase.userId !== userId) {
+      throw new CustomError(JWT.AUTH.FORBIDDEN, STATUS_CODE.FORBIDDON);
+    }
+
+    return {
+      success: true,
+      status: STATUS_CODE.OK,
+      data: {
+        purchase,
       },
     };
   },

@@ -11,7 +11,24 @@ const purchaseRepo = {
       const purchase = new Purchase(purchaseData);
       return await purchase.save();
     } catch (error) {
-      throw new CustomError(DAO.FAILED.INSERT(ENTITY.USER, error), STATUS_CODE.SERVER_ERROR);
+      throw new CustomError(DAO.FAILED.INSERT(ENTITY.PURCHASE, error), STATUS_CODE.SERVER_ERROR);
+    }
+  },
+
+  getById: async (purchaseId) => {
+    try {
+      return await Purchase.findById(purchaseId);
+    } catch (error) {
+      throw new CustomError(DAO.FAILED.GET.By_Id(ENTITY.PURCHASE, error), STATUS_CODE.SERVER_ERROR);
+    }
+  },
+
+  getAllByUserId: async (userId) => {
+    try {
+      const purchases = await Purchase.find({ userId }).sort({ createdAt: -1 });
+      return purchases;
+    } catch (error) {
+      throw new CustomError(DAO.FAILED.GET.By_UserId(ENTITY.PURCHASE, error), STATUS_CODE.SERVER_ERROR);
     }
   },
 };
