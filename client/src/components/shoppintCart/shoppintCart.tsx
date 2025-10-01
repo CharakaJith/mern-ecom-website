@@ -1,9 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { type User } from '@/types/user';
 import { useCart } from '@/context/cartContext';
 import { Button } from '../ui/button';
 import { PlusIcon, MinusIcon, TrashIcon } from 'lucide-react';
+import { ERROR } from '@/common/messages';
 
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -14,8 +16,10 @@ const api = axios.create({
 
 const ShoppingCart: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string[]>([]);
+  const [isError, setIsError] = useState<boolean>(false);
 
+  const navigate = useNavigate();
   const { cart, decrementFromCart, addToCart, clearCart } = useCart();
 
   // calculate total
@@ -42,15 +46,49 @@ const ShoppingCart: React.FC = () => {
   };
 
   // handle checkout click
-  const handleCheckout = () => {
-    const items = cart.map((item) => ({
+  const handleCheckout = async () => {
+    const itemsDetails = cart.map((item) => ({
       itemId: item._id,
       quantity: item.quantity,
       size: item.size,
       price: item.price,
     }));
 
-    console.log(items);
+    // send request
+    try {
+      const accessToken = sessionStorage.getItem('accessToken');
+      if (accessToken) {
+        const res = await api.post(
+          '/api/v1/purchase',
+          {
+            items: itemsDetails,
+          },
+          {
+            headers: {
+              Authorization: `"${accessToken}"`,
+            },
+          },
+        );
+        if (res.data.success) {
+          clearCart();
+          setIsError(false);
+          setError([]);
+
+          // go to purchase details page
+          navigate('/purchase/details');
+        }
+      }
+    } catch (error: any) {
+      const responseData = error.response?.data?.response?.data;
+      if (Array.isArray(responseData)) {
+        setError(responseData.map((err) => err.message).filter(Boolean));
+      } else if (responseData?.message) {
+        setError([responseData.message]);
+      } else {
+        setError([ERROR.UNEXPECTED]);
+      }
+      setIsError(true);
+    }
   };
 
   useEffect(() => {
@@ -119,6 +157,14 @@ const ShoppingCart: React.FC = () => {
                 </div>
               ))}
             </div>
+
+            {/* error boxes */}
+            {isError &&
+              error.map((msg, index) => (
+                <div key={index} className="w-full py-2 bg-red-500 text-white rounded-md text-sm text-center">
+                  {msg}
+                </div>
+              ))}
 
             {/* total section */}
             <div className="mt-6 border-t pt-4 flex flex-col sm:flex-row justify-between items-center gap-4">
