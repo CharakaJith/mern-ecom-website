@@ -48,6 +48,57 @@
    cd mern-ecom-website
    ```
 
+### Environment variables setup
+
+#### Server side
+
+1. Create a `.env` file in root folder
+   ```
+   New-Item -Path . -Name ".env" -ItemType "File"
+   ```
+2. Open the `.env` file and update the variables
+   ```
+   ## environment variables
+   ENV=development
+   PORT=8000 (make sure the port is set to 8000 if running the server with docker)
+
+   ## mongo db
+   MONGO_URI=mongodb+srv://<username>:<password>@<cluster-name>-cluster.2bsublg.mongodb.net/<database>
+
+   ## jwt secrets
+   ACCESS_TOKEN_SECRET=<secure random string>
+   REFRESH_TOKEN_SECRET=<secure random string>
+
+   ## nodemailer config (these fields are required to send emails via nodemailer)
+   EMAIL_SERVICE=gmail
+   EMAIL_USER=<gmail> 
+   EMAIL_PASS=<gmail pass key>
+
+   ## test (optional)
+   TEST_MAIL=<email to test nodemailer functionality>
+   ```
+
+#### Client side
+
+1. Create a `.env` file in the client folder
+   ```
+   New-Item -Path . -Name ".env" -ItemType "File"
+   ```
+2. Open the `.env` file and update the variables
+   ```
+   ## base url
+   VITE_API_BASE_URL=http://localhost:8000 (or the port you have used)
+    
+   ## contact details for footer
+   VITE_CONTACT_EMAIL=<your email>
+   VITE_CONTACT_PHONE=<your contact number>
+   ```
+
+### Notes
+
+- **For JWT secrets:** The <secure random string> values for `ACCESS_TOKEN_SECRET` and `REFRESH_TOKEN_SECRET` should be generated securely, for example using crypto.randomBytes in Node.js or a trusted online generator.
+- **For server and client ports:** Ensure that the `PORT` in the server `.env` and `VITE_API_BASE_URL` in the client `.env` match, especially when running the application via Docker, to enable proper communication between frontend and backend.
+
 ### Start the project using Docker (recommended)
 
 1. Build the docker image and run
@@ -161,19 +212,29 @@ The following assumptions were made during the development of this project:
 
 ## Identified Future Enhancements
 
-- **Payment Integration:** Implement real payment gateways (Stripe, Payhere) for seamless checkout and secure transactions.
-- **Inventory Management:** Track stock levels for clothing items, automatically updating availability and preventing overselling.
-- **User Roles & Permissions:** Introduce admin, vendor, and customer roles with granular access control.
-- **Wishlist & Favorites:** Allow users to save items for future purchase or create wishlists.  
-- **Product Reviews & Ratings:** Enable users to leave reviews and ratings for purchased items.
-- **Performance Optimization:** Improve API response times and database indexing for high traffic scenarios.
+- **Client-side**
+
+  - **Wishlist & Favorites:** Allow users to save items for future purchase or create wishlists.  
+  - **Product Reviews & Ratings:** Enable users to leave reviews and ratings for purchased items.
+  - **Improved Client-Side Validation:** Enhance form validations, error handling, and notifications.
+  - **Dark/Light Mode:** Allow users to switch between themes dynamically.
+ 
+- **Server-side**
+
+  - **Payment Integration:** Implement real payment gateways (Stripe, Payhere) for seamless checkout and secure transactions.
+  - **Inventory Management:** Track stock levels for clothing items, automatically updating availability and preventing overselling.
+  - **User Roles & Permissions:** Introduce admin, vendor, and customer roles with granular access control.
+  - **Unit Testing**: Implement automated testing using Jest or similar frameworks for robust backend verification.
+  - **CI/CD Pipeline:** Set up continuous integration and deployment for automated testing, builds, and production deployment.
+  - **Performance Optimization:** Improve API response times and database indexing for high traffic scenarios.
+  - **Refresh token:** Implement a mechanism to refresh access tokens for users without requiring them to log in each time a sessionis expired.
 
 ### Declaration
 
 - This project, including all source code and documentation, was developed by me as part of the Aeontrix AI Backend Developer technical assessment.
 - Product descriptions and documentation were reviewed and refined using ChatGPT to ensure proper grammar, clarity, and professional English. 
 - All images used in this project are sourced from the Carnage and Nolimit websites, and the prices reflect those listed on these sites. The project is provided for educational and evaluation purposes only.
-- ChatGPT was used as a guidance for UI component styling (CSS) and layout decisions. All backend functionality, including API implementation, database interactions, and business logic, was fully developed independently by the author.
+- ChatGPT was used as a guidance for UI component styling (CSS) and layout decisions. All backend functionality, including API implementation, database interactions, and business logic, as well as the thought process was independently concluded by the author.
 
 ## Documentations
 
