@@ -12,8 +12,8 @@ class MongoDB {
       });
 
       console.log(DATABASE.CONN.SUCCESS);
-    } catch (err) {
-      console.error(DATABASE.CONN.FAILED(err));
+    } catch (error) {
+      console.error(DATABASE.CONN.FAILED(error));
       process.exit(1);
     }
   }

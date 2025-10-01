@@ -1,4 +1,4 @@
-import { HomeIcon, ShoppingCartIcon, UserIcon } from 'lucide-react';
+import { HomeIcon, ShoppingCartIcon, UserIcon, HistoryIcon } from 'lucide-react';
 import { type ComponentType, type SVGProps } from 'react';
 
 export interface NavLink {
@@ -10,5 +10,6 @@ export interface NavLink {
 export const NAV_LINKS: NavLink[] = [
   { href: '/', label: 'Home', icon: HomeIcon },
   { href: '/cart', label: 'Cart', icon: ShoppingCartIcon },
+  { href: '/purchase', label: 'Order History', icon: HistoryIcon },
   { href: '/account', label: 'My Account', icon: UserIcon },
 ];

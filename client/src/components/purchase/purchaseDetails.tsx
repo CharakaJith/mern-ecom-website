@@ -39,8 +39,8 @@ const PurchaseDetails: React.FC = () => {
         setError([data.response.data.message || 'Failed to fetch purchase']);
         setIsError(true);
       }
-    } catch (err: any) {
-      setError([err.message || 'Failed to fetch purchase']);
+    } catch (error: any) {
+      setError([error.message || 'Failed to fetch purchase']);
       setIsError(true);
     }
   };
@@ -58,9 +58,9 @@ const PurchaseDetails: React.FC = () => {
 
   return (
     <div className="flex justify-center items-start pt-15 md:pt-24 pb-10 px-4 cursor-default">
-      {/* order display card */}
+      {/* purchase display card */}
       <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-[1200px] flex flex-col gap-6">
-        {/* display heading */}
+        {/* card heading */}
         <h1 className="text-2xl md:text-3xl font-bold text-center md:text-left">Purchase Details</h1>
 
         {/* error boxes */}

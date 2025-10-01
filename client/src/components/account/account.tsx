@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { type User } from '@/types/user';
 import userIcon from '@/assets/icons/user.png';
 import { Button } from '../ui/button';
@@ -17,12 +18,19 @@ const Account: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const navigate = useNavigate();
+
   // handle logout button click
   const handleLogout = () => {
     // clear session storage
     sessionStorage.clear();
 
     window.location.href = '/';
+  };
+
+  // go to purchase histor
+  const goToHistory = () => {
+    navigate('/purchase');
   };
 
   // fetch user details
@@ -83,7 +91,9 @@ const Account: React.FC = () => {
               </div>
 
               <div className="relative inline-block group">
-                <p className="italic text-sm md:text-base cursor-pointer">View past purchases</p>
+                <p className="italic text-sm md:text-base cursor-pointer" onClick={goToHistory}>
+                  View past purchases
+                </p>
                 <span className="absolute left-0 -bottom-1 h-[2px] bg-black transition-all duration-300 w-0 group-hover:w-full"></span>
               </div>
 

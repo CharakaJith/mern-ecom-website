@@ -50,7 +50,7 @@ const UpdateUserPopup: React.FC<UpdateUserPopupProp> = ({ user, onClose }) => {
         const responseData = error.response?.data?.response?.data;
 
         if (Array.isArray(responseData)) {
-          setError(responseData.map((err) => err.message).filter(Boolean));
+          setError(responseData.map((error) => error.message).filter(Boolean));
         } else if (responseData?.message) {
           setError([responseData.message]);
         } else if (typeof responseData === 'string') {

@@ -1,8 +1,8 @@
 const logger = require('./log/logger');
 const { APP_ENV, STATUS_CODE } = require('../constants/app.constants');
 
-const errorHandler = (err, req, res, next) => {
-  const { status, statusCode, message, stack } = err;
+const errorHandler = (error, req, res, next) => {
+  const { status, statusCode, message, stack } = error;
   const httpCode = statusCode || STATUS_CODE.SERVER_ERROR;
 
   logger(status, false, httpCode, message, req);
