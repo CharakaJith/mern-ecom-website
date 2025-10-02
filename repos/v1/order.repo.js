@@ -17,7 +17,21 @@ const orderRepo = {
 
   getById: async (orderId) => {
     try {
-      return await Order.findById(orderId).populate('userId', '_id name').populate('items.itemId', 'name');
+      return await Order.findById(orderId)
+        .populate({
+          path: 'cartId',
+          model: 'Cart',
+          populate: {
+            path: 'items.itemId',
+            model: 'ClothingItem',
+          },
+        })
+        .populate({
+          path: 'userId',
+          model: 'User',
+          select: '_id name',
+        })
+        .sort({ createdAt: -1 });
     } catch (error) {
       throw new CustomError(DAO.FAILED.GET.By_Id(ENTITY.ORDER, error), STATUS_CODE.SERVER_ERROR);
     }
@@ -25,8 +39,16 @@ const orderRepo = {
 
   getAllByUserId: async (userId) => {
     try {
-      const order = await Order.find({ userId }).sort({ createdAt: -1 });
-      return order;
+      return await Order.find({ userId })
+        .populate({
+          path: 'cartId',
+          model: 'Cart',
+          populate: {
+            path: 'items.itemId',
+            model: 'ClothingItem',
+          },
+        })
+        .sort({ createdAt: -1 });
     } catch (error) {
       throw new CustomError(DAO.FAILED.GET.By_UserId(ENTITY.ORDER, error), STATUS_CODE.SERVER_ERROR);
     }

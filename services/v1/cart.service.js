@@ -38,7 +38,7 @@ const cartService = {
     // check if user have active cart
     const cart = await cartRepo.getActiveByUserId(userId);
     if (cart) {
-      throw new CustomError(RESPONSE.CART.EXISTS);
+      throw new CustomError(RESPONSE.CART.EXISTS, STATUS_CODE.BAD_REQUEST);
     }
 
     // check item availablity
@@ -88,7 +88,7 @@ const cartService = {
   getUserCart: async (userId) => {
     const cart = await cartRepo.getActiveByUserId(userId);
     if (!cart) {
-      throw new CustomError(RESPONSE.CART.NOT_FOUND);
+      throw new CustomError(RESPONSE.CART.NOT_FOUND, STATUS_CODE.NOT_FOUND);
     }
 
     return {

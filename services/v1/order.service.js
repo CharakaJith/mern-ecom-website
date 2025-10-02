@@ -1,10 +1,11 @@
 const CustomError = require('../../util/customError');
 const logger = require('../../middleware/log/logger');
-const itemRepo = require('../../repos/v1/item.repo');
+const cartRepo = require('../../repos/v1/cart.repo');
 const orderRepo = require('../../repos/v1/order.repo');
 const fieldValidator = require('../../util/fieldValidator');
 const emailService = require('../email.service');
 const displayIdGenerator = require('../../common/displayIdGenerator');
+const STATUS = require('../../enum/cartStatus');
 
 const { LOG_TYPE } = require('../../constants/logger.constants');
 const { STATUS_CODE } = require('../../constants/app.constants');
@@ -12,53 +13,11 @@ const { RESPONSE, JWT } = require('../../common/messages');
 
 const orderService = {
   createNewOrder: async (data) => {
-    const { items, userId, email } = data;
+    const { cartId, userId, email } = data;
 
     // validate order details
     const errorArray = [];
-    for (const item of items) {
-      const { itemId, name, price, quantity, size } = item;
-
-      const validations = [
-        { field: 'itemId', result: await fieldValidator.validate_objectId(itemId, 'item id') },
-        { field: 'name', result: await fieldValidator.validate_string(name, 'item name') },
-        { field: 'price', result: await fieldValidator.validate_number(price, 'item price') },
-        { field: 'quantity', result: await fieldValidator.validate_number(quantity, 'item quantity') },
-        { field: 'size', result: await fieldValidator.validate_string(size, 'item size') },
-      ];
-
-      validations.forEach((v) => {
-        if (v.result !== 1) {
-          errorArray.push({
-            itemId,
-            field: v.field,
-            error: v.result,
-          });
-        }
-      });
-    }
-
-    // validate availablity and sizes
-    for (const item of items) {
-      const availableItem = await itemRepo.getById(item.itemId);
-      if (!availableItem) {
-        errorArray.push({
-          itemId: item.itemId,
-          field: 'itemId',
-          error: RESPONSE.ITEM.NOT_FOUND,
-        });
-        continue;
-      }
-
-      // check size
-      if (!availableItem.sizes.includes(item.size)) {
-        errorArray.push({
-          itemId: item.itemId,
-          field: 'size',
-          error: RESPONSE.ITEM.INVALID_SIZE(item.size, availableItem.sizes),
-        });
-      }
-    }
+    errorArray.push(await fieldValidator.validate_objectId(cartId, 'cart id'));
 
     // check request data
     const filteredErrors = errorArray.filter((obj) => obj !== 1);
@@ -72,8 +31,11 @@ const orderService = {
       };
     }
 
-    // calculate total
-    const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    // get and validate cart
+    const cart = await cartRepo.getById(cartId);
+    if (!cart || cart.status !== STATUS.ACTIVE) {
+      throw new CustomError(RESPONSE.CART.NOT_FOUND, STATUS_CODE.NOT_FOUND);
+    }
 
     // generate display id
     const displayId = await displayIdGenerator.ORDER_ID();
@@ -82,10 +44,13 @@ const orderService = {
     const orderData = {
       displayId: displayId,
       userId: userId,
-      items: items,
-      totalPrice: total,
+      cartId: cartId,
     };
     const newOrder = await orderRepo.insert(orderData);
+
+    // update cart status
+    cart.status = STATUS.PURCHASED;
+    await cartRepo.update(cart);
 
     // send confrimation email
     await emailService.sendEmail(email, newOrder);

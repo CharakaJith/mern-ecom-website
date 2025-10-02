@@ -3,9 +3,9 @@ const orderService = require('../../services/v1/order.service');
 const orderController = {
   checkout: async (req, res, next) => {
     try {
-      const { items } = req.body;
+      const { cartId } = req.body;
       const { userId, email } = req.user;
-      const orderData = { items, userId, email };
+      const orderData = { cartId, userId, email };
 
       const response = await orderService.createNewOrder(orderData);
       const { success, status, data } = response;

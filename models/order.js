@@ -13,35 +13,9 @@ const orderSchema = new mongoose.Schema(
       ref: 'User',
       required: true,
     },
-    items: [
-      {
-        itemId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'ClothingItem',
-          required: true,
-        },
-        name: {
-          type: String,
-          required: true,
-        },
-        price: {
-          type: Number,
-          required: true,
-        },
-        quantity: {
-          type: Number,
-          required: true,
-          min: 1,
-        },
-        size: {
-          type: String,
-          enum: SIZE.values,
-          required: true,
-        },
-      },
-    ],
-    totalPrice: {
-      type: Number,
+    cartId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Cart',
       required: true,
     },
     orderDate: {
