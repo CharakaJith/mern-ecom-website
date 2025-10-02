@@ -5,6 +5,7 @@ const cartRepo = require('../../repos/v1/cart.repo');
 const fieldValidator = require('../../util/fieldValidator');
 const displayIdGenerator = require('../../common/displayIdGenerator');
 const STATUS = require('../../enum/cartStatus');
+const ACTIONS = require('../../enum/cartActions');
 
 const { LOG_TYPE } = require('../../constants/logger.constants');
 const { STATUS_CODE } = require('../../constants/app.constants');
@@ -90,6 +91,78 @@ const cartService = {
     };
   },
 
+  cartActions: async (data) => {
+    const { action, cartId, objectId, userId } = data;
+
+    // validate request data
+    const errorArray = [];
+    errorArray.push(await fieldValidator.validate_objectId(cartId, 'cart id'));
+    errorArray.push(await fieldValidator.validate_objectId(objectId, 'object id'));
+
+    // check request data
+    const filteredErrors = errorArray.filter((obj) => obj !== 1);
+    if (filteredErrors.length !== 0) {
+      logger(LOG_TYPE.ERROR, false, STATUS_CODE.BAD_REQUEST, filteredErrors);
+
+      return {
+        success: false,
+        status: STATUS_CODE.BAD_REQUEST,
+        data: filteredErrors,
+      };
+    }
+
+    // validate action
+    if (!ACTIONS.values.includes(action)) {
+      throw new CustomError(RESPONSE.CART.INVALID_ACTION, STATUS_CODE.BAD_REQUEST);
+    }
+
+    // check if cart is available
+    const cart = await cartRepo.getById(cartId);
+    if (!cart || cart.status !== STATUS.ACTIVE) {
+      throw new CustomError(RESPONSE.CART.NOT_FOUND, STATUS_CODE.NOT_FOUND);
+    }
+
+    // check if cart belongs to user
+    if (cart.userId._id.toString() !== userId) {
+      throw new CustomError(JWT.AUTH.FORBIDDEN, STATUS_CODE.FORBIDDON);
+    }
+
+    // check if item is already in the cart
+    const cartItem = cart.items.find((item) => item._id.toString() === objectId);
+    if (!cartItem) {
+      throw new CustomError(RESPONSE.CART.INVALID_ITEM, STATUS_CODE.BAD_REQUEST);
+    }
+
+    // perform actions
+    switch (action) {
+      case ACTIONS.ADD:
+        cartItem.quantity++;
+        break;
+      case ACTIONS.REMOVE:
+        cartItem.quantity--;
+
+        if (cartItem.quantity === 0) {
+          cart.items = cart.items.filter((item) => !(item._id.toString() === objectId));
+        }
+
+        break;
+      case ACTIONS.DELETE:
+        cart.items = cart.items.filter((item) => !(item._id.toString() === objectId));
+        break;
+    }
+
+    // save changes
+    const updatedCart = await cartRepo.update(cart);
+
+    return {
+      success: true,
+      status: STATUS_CODE.OK,
+      data: {
+        cart,
+      },
+    };
+  },
+
   updateCartItems: async (data) => {
     const { itemId, name, quantity, size, price, userId, id } = data;
 
@@ -118,6 +191,11 @@ const cartService = {
     const cart = await cartRepo.getById(id);
     if (!cart || cart.status !== STATUS.ACTIVE) {
       throw new CustomError(RESPONSE.CART.NOT_FOUND, STATUS_CODE.NOT_FOUND);
+    }
+
+    // check if cart belongs to user
+    if (cart.userId.toString() !== userId) {
+      throw new CustomError(JWT.AUTH.FORBIDDEN, STATUS_CODE.FORBIDDON);
     }
 
     // check item availablity

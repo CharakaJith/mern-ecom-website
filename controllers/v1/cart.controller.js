@@ -40,6 +40,31 @@ const cartController = {
     }
   },
 
+  action: async (req, res, next) => {
+    try {
+      // read filters
+      const action = req.query.action || '';
+
+      const { cartId, objectId } = req.body;
+      const { userId } = req.user;
+
+      const actionData = { action, cartId, objectId, userId };
+
+      const response = await cartService.cartActions(actionData);
+      const { success, status, data } = response;
+
+      res.status(status).json({
+        success: success,
+        response: {
+          status: status,
+          data: data,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
   update: async (req, res, next) => {
     try {
       const cartData = ({ itemId, name, quantity, size, price } = req.body);

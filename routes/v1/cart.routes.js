@@ -8,6 +8,7 @@ cartRouter.use(authenticate);
 
 cartRouter.post('/', cartController.add);
 cartRouter.get('/', cartController.get);
+cartRouter.put('/', cartController.action);
 cartRouter.put('/:id', cartController.update);
 cartRouter.delete('/:id', cartController.delete);
 

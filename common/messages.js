@@ -32,6 +32,8 @@ module.exports = {
     },
     CART: {
       NOT_FOUND: 'Invalid cart id',
+      INVALID_ACTION: 'Invalid cart action',
+      INVALID_ITEM: 'Item not found',
     },
   },
 
