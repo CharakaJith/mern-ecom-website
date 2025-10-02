@@ -8,6 +8,10 @@ const displayIdGenerator = {
     return `USR-${nano7()}`;
   },
 
+  CART_ID: async () => {
+    return `CRT-${nano7()}`;
+  },
+
   ORDER_ID: async () => {
     return `ORDR-${nano7()}`;
   },
