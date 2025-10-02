@@ -21,7 +21,7 @@ const ShoppingCart: React.FC = () => {
   const [isError, setIsError] = useState<boolean>(false);
 
   const navigate = useNavigate();
-  const { cart, decrementFromCart, addToCart, clearCart } = useCart();
+  const { cart, decrementFromCart, addToCart, clearCart, removeFromCart } = useCart();
 
   // calculate total
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -73,6 +73,64 @@ const ShoppingCart: React.FC = () => {
     }
   };
 
+  // perform cart action
+  const performCartAction = async (action: string, objectId: string) => {
+    const accessToken = sessionStorage.getItem('accessToken');
+
+    if (!accessToken) return;
+
+    try {
+      const requestData = {
+        cartId: activeCart._id,
+        objectId: objectId,
+      };
+
+      const { data } = await api.put(`/api/v1/cart?action=${action}`, requestData, {
+        headers: {
+          Authorization: `"${accessToken}"`,
+        },
+      });
+
+      const response = data;
+
+      if (response.success) {
+        const savedCart = data.response.data.cart;
+
+        // clear and save current cart
+        if (savedCart.items && savedCart.items.length > 0) {
+          clearCart();
+          setActiveCart(savedCart);
+          savedCart.items.forEach((item: any) => addToCart(item, item.size, item.quantity));
+        }
+      } else {
+        setError(response.response.data.message || 'Failed to perform cart action');
+      }
+    } catch (error: any) {
+      setError(error.message || 'Failed to perform cart action');
+    }
+  };
+
+  // handle plus click
+  const handlePlusClick = async (item: any, size: string, objectId: string) => {
+    addToCart(item, size, 1);
+
+    performCartAction('add', objectId);
+  };
+
+  // handle minus click
+  const handleMinusClick = async (itemId: string, size: string, objectId: string) => {
+    decrementFromCart(itemId, size);
+
+    performCartAction('remove', objectId);
+  };
+
+  // handle delete click
+  const handleDeleteClick = async (itemId: string, size: string, objectId: string) => {
+    removeFromCart(itemId, size);
+
+    performCartAction('delete', objectId);
+  };
+
   // handle clear click
   const handleClearCart = async () => {
     const accessToken = sessionStorage.getItem('accessToken');
@@ -82,8 +140,6 @@ const ShoppingCart: React.FC = () => {
       clearCart();
       return;
     }
-
-    console.log(activeCart._id);
 
     // send request
     try {
@@ -154,8 +210,6 @@ const ShoppingCart: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log(cart);
-
     const accessToken = sessionStorage.getItem('accessToken');
     if (accessToken) {
       fetchUserDetails(accessToken);
@@ -196,7 +250,7 @@ const ShoppingCart: React.FC = () => {
                     <div className="flex items-center gap-2">
                       {/* remove one */}
                       <Button
-                        onClick={() => decrementFromCart(item._id, item.size)}
+                        onClick={() => handleMinusClick(item._id, item.size, item._id)}
                         className="p-2 bg-gray-700 rounded-lg hover:bg-gray-900 cursor-pointer"
                       >
                         <MinusIcon size={16} />
@@ -206,14 +260,17 @@ const ShoppingCart: React.FC = () => {
                       <span className="px-2 font-bold">{item.quantity}</span>
 
                       {/* add one */}
-                      <Button onClick={() => addToCart(item, item.size, 1)} className="p-2 bg-green-700 rounded-lg hover:bg-green-900 cursor-pointer">
+                      <Button
+                        onClick={() => handlePlusClick(item, item.size, item._id)}
+                        className="p-2 bg-green-700 rounded-lg hover:bg-green-900 cursor-pointer"
+                      >
                         <PlusIcon size={16} />
                       </Button>
                     </div>
 
                     {/* remove item */}
                     <Button
-                      onClick={() => decrementFromCart(item._id, item.size)}
+                      onClick={() => handleDeleteClick(item._id, item.size, item._id)}
                       className="p-2 bg-red-700 hover:bg-red-900 rounded-lg cursor-pointer"
                     >
                       <TrashIcon size={16} />

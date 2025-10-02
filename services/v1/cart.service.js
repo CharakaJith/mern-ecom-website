@@ -158,7 +158,7 @@ const cartService = {
       success: true,
       status: STATUS_CODE.OK,
       data: {
-        cart,
+        cart: updatedCart,
       },
     };
   },
@@ -194,7 +194,7 @@ const cartService = {
     }
 
     // check if cart belongs to user
-    if (cart.userId.toString() !== userId) {
+    if (cart.userId._id.toString() !== userId) {
       throw new CustomError(JWT.AUTH.FORBIDDEN, STATUS_CODE.FORBIDDON);
     }
 
