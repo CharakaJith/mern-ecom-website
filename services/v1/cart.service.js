@@ -12,53 +12,15 @@ const { RESPONSE, JWT } = require('../../common/messages');
 
 const cartService = {
   addToCart: async (data) => {
-    const { items, userId } = data;
+    const { itemId, name, quantity, size, price, userId } = data;
 
     // validate cart items
     const errorArray = [];
-    for (const item of items) {
-      const { itemId, name, price, quantity, size } = item;
-
-      const validations = [
-        { field: 'itemId', result: await fieldValidator.validate_objectId(itemId, 'item id') },
-        { field: 'name', result: await fieldValidator.validate_string(name, 'item name') },
-        { field: 'price', result: await fieldValidator.validate_number(price, 'item price') },
-        { field: 'quantity', result: await fieldValidator.validate_number(quantity, 'item quantity') },
-        { field: 'size', result: await fieldValidator.validate_string(size, 'item size') },
-      ];
-
-      validations.forEach((v) => {
-        if (v.result !== 1) {
-          errorArray.push({
-            itemId,
-            field: v.field,
-            error: v.result,
-          });
-        }
-      });
-    }
-
-    // validate availablity and sizes
-    for (const item of items) {
-      const availableItem = await itemRepo.getById(item.itemId);
-      if (!availableItem) {
-        errorArray.push({
-          itemId: item.itemId,
-          field: 'itemId',
-          error: RESPONSE.ITEM.NOT_FOUND,
-        });
-        continue;
-      }
-
-      // check size
-      if (!availableItem.sizes.includes(item.size)) {
-        errorArray.push({
-          itemId: item.itemId,
-          field: 'size',
-          error: RESPONSE.ITEM.INVALID_SIZE(item.size, availableItem.sizes),
-        });
-      }
-    }
+    errorArray.push(await fieldValidator.validate_objectId(itemId, 'item id'));
+    errorArray.push(await fieldValidator.validate_string(name, 'item name'));
+    errorArray.push(await fieldValidator.validate_number(price, 'item price'));
+    errorArray.push(await fieldValidator.validate_number(quantity, 'item quantity'));
+    errorArray.push(await fieldValidator.validate_string(size, 'item size'));
 
     // check request data
     const filteredErrors = errorArray.filter((obj) => obj !== 1);
@@ -72,8 +34,19 @@ const cartService = {
       };
     }
 
+    // check availablity
+    const availableItem = await itemRepo.getById(itemId);
+    if (!availableItem) {
+      throw new CustomError(RESPONSE.ITEM.NOT_FOUND, STATUS_CODE.NOT_FOUND);
+    }
+
+    // check size
+    if (!availableItem.sizes.includes(size)) {
+      throw new CustomError(RESPONSE.ITEM.INVALID_SIZE(size, availableItem.sizes), STATUS_CODE.BAD_REQUEST);
+    }
+
     // calculate total
-    const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const total = price * quantity;
 
     // generate display id
     const displayId = await displayIdGenerator.CART_ID();
@@ -82,7 +55,15 @@ const cartService = {
     const cartData = {
       displayId: displayId,
       userId: userId,
-      items: items,
+      items: [
+        {
+          itemId,
+          name,
+          quantity,
+          price,
+          size,
+        },
+      ],
       status: STATUS.ACTIVE,
       totalPrice: total,
     };

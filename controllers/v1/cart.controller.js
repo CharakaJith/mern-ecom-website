@@ -3,9 +3,8 @@ const cartService = require('../../services/v1/cart.service');
 const cartController = {
   add: async (req, res, next) => {
     try {
-      const { items } = req.body;
-      const userId = req.user.userId;
-      const cartData = { items, userId };
+      const cartData = ({ itemId, name, quantity, size, price } = req.body);
+      cartData.userId = req.user.userId;
 
       const response = await cartService.addToCart(cartData);
       const { success, status, data } = response;

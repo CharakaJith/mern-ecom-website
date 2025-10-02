@@ -56,16 +56,46 @@ const ItemDisplay: React.FC = () => {
   };
 
   // handle add to cart
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!item || !selectedSize) {
       setPopupMessage('Please select a size!');
       setTimeout(() => setPopupMessage(null), 3000);
       return;
     }
 
-    addToCart(item, selectedSize);
-    setPopupMessage('Item added to cart!');
-    setTimeout(() => setPopupMessage(null), 3000);
+    // add to session cart if user is logged in
+    const accessToken = sessionStorage.getItem('accessToken');
+    if (!accessToken) {
+      addToCart(item, selectedSize);
+      setPopupMessage('Item added to cart!');
+      setTimeout(() => setPopupMessage(null), 3000);
+    }
+
+    // send request
+    try {
+      const cartDetails = {
+        itemId: item._id,
+        name: item.name,
+        quantity: quantity,
+        size: selectedSize,
+        price: item.price,
+      };
+
+      const res = await api.post('/api/v1/cart', cartDetails, {
+        headers: { Authorization: `"${accessToken}"` },
+      });
+
+      if (res.data.success) {
+        const savedItem = res.data.response.data.cart;
+        addToCart(savedItem, savedItem.items.size, savedItem.items.quantity);
+
+        setPopupMessage('Item added to cart!');
+        setTimeout(() => setPopupMessage(null), 3000);
+      }
+    } catch (error: any) {
+      setPopupMessage(error.response?.data?.message || 'Failed to add item to cart');
+      setTimeout(() => setPopupMessage(null), 3000);
+    }
   };
 
   useEffect(() => {
