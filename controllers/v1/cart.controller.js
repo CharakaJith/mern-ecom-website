@@ -93,12 +93,13 @@ const cartController = {
       const deleteData = { userId, id };
 
       const response = await cartService.removeUserCart(deleteData);
-      const { success, status } = response;
+      const { success, status, data = '' } = response;
 
       res.status(status).json({
         success: success,
         response: {
           status: status,
+          data: data,
         },
       });
     } catch (error) {

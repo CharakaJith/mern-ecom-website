@@ -31,6 +31,7 @@ module.exports = {
       NOT_FOUND: 'Invalid order id',
     },
     CART: {
+      EXISTS: 'User already have an active cart',
       NOT_FOUND: 'Invalid cart id',
       INVALID_ACTION: 'Invalid cart action',
       INVALID_ITEM: 'Item not found',

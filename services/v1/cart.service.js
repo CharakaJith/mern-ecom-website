@@ -35,6 +35,12 @@ const cartService = {
       };
     }
 
+    // check if user have active cart
+    const cart = await cartRepo.getActiveByUserId(userId);
+    if (cart) {
+      throw new CustomError(RESPONSE.CART.EXISTS);
+    }
+
     // check item availablity
     const availableItem = await itemRepo.getById(itemId);
     if (!availableItem) {
@@ -81,6 +87,9 @@ const cartService = {
 
   getUserCart: async (userId) => {
     const cart = await cartRepo.getActiveByUserId(userId);
+    if (!cart) {
+      throw new CustomError(RESPONSE.CART.NOT_FOUND);
+    }
 
     return {
       success: true,
@@ -127,7 +136,7 @@ const cartService = {
       throw new CustomError(JWT.AUTH.FORBIDDEN, STATUS_CODE.FORBIDDON);
     }
 
-    // check if item is already in the cart
+    // check if item is not in the cart
     const cartItem = cart.items.find((item) => item._id.toString() === objectId);
     if (!cartItem) {
       throw new CustomError(RESPONSE.CART.INVALID_ITEM, STATUS_CODE.BAD_REQUEST);
