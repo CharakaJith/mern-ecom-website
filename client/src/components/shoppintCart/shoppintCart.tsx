@@ -160,14 +160,6 @@ const ShoppingCart: React.FC = () => {
 
   // handle checkout click
   const handleCheckout = async () => {
-    const itemsDetails = cart.map((item) => ({
-      itemId: item._id,
-      name: item.name,
-      quantity: item.quantity,
-      size: item.size,
-      price: item.price,
-    }));
-
     // send request
     try {
       const accessToken = sessionStorage.getItem('accessToken');
@@ -175,7 +167,7 @@ const ShoppingCart: React.FC = () => {
         const res = await api.post(
           '/api/v1/order',
           {
-            items: itemsDetails,
+            cartId: activeCart._id,
           },
           {
             headers: {

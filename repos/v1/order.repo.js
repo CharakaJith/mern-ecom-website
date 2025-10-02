@@ -48,6 +48,11 @@ const orderRepo = {
             model: 'ClothingItem',
           },
         })
+        .populate({
+          path: 'userId',
+          model: 'User',
+          select: '_id name',
+        })
         .sort({ createdAt: -1 });
     } catch (error) {
       throw new CustomError(DAO.FAILED.GET.By_UserId(ENTITY.ORDER, error), STATUS_CODE.SERVER_ERROR);

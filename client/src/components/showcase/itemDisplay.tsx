@@ -70,7 +70,7 @@ const ItemDisplay: React.FC = () => {
         setError(response.response.data.message || 'Failed to fetch user cart');
       }
     } catch (error: any) {
-      setError(error.message || 'Failed to fetch user cart');
+      // setError(error.message || 'Failed to fetch user cart');
     }
   };
 

@@ -1,6 +1,5 @@
 import { useLocation } from 'react-router-dom';
 import MessagePopup from '@/components/popups/messagePopup';
-import type { Order } from '@/types/order';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -16,7 +15,7 @@ const orderDetails: React.FC = () => {
   const { orderId } = useParams<{ orderId: string }>();
   const location = useLocation();
 
-  const [order, setOrder] = useState<Order | null>(null);
+  const [order, setOrder] = useState<any | null>(null);
   const [error, setError] = useState<string[]>([]);
   const [isError, setIsError] = useState<boolean>(false);
   const [showOrderPlaced, setShowOrderPlaced] = useState(false);
@@ -91,7 +90,7 @@ const orderDetails: React.FC = () => {
             {/* order items */}
             <h2 className="text-base font-semibold mb-2 md:text-xl">Items</h2>
             <div className="flex flex-col gap-4">
-              {order.items.map((item) => (
+              {order.cartId.items.map((item: any) => (
                 <div key={item._id} className="flex flex-col sm:flex-row justify-between p-4 border rounded-lg shadow-sm gap-2 bg-gray-100">
                   {/* left panel- item information */}
                   <div className="flex flex-col">
@@ -121,7 +120,7 @@ const orderDetails: React.FC = () => {
 
             <div className="flex justify-between items-center p-4 bg-green-300 rounded-lg font-bold text-lg">
               <span>Total</span>
-              <span>LKR {order.totalPrice.toLocaleString()}.00</span>
+              <span>LKR {order.cartId?.totalPrice?.toLocaleString()}.00</span>
             </div>
           </>
         ) : (

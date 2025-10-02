@@ -1,4 +1,3 @@
-import type { Order } from '@/types/order';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
@@ -11,7 +10,7 @@ const api = axios.create({
 });
 
 const OrderHistory: React.FC = () => {
-  const [orderList, setOrderList] = useState<Order[] | null>([]);
+  const [orderList, setOrderList] = useState<any[] | null>([]);
   const [error, setError] = useState<string[]>([]);
   const [isError, setIsError] = useState<boolean>(false);
 
@@ -82,10 +81,10 @@ const OrderHistory: React.FC = () => {
                 <span className="font-semibold">Order ID:</span> {order.displayId}
               </p>
               <p>
-                <span className="font-semibold">Order Date:</span> {new Date(order.orderDate).toLocaleDateString('en-GB')}
+                <span className="font-semibold">Order Date:</span> {new Date(order.createdAt).toLocaleDateString('en-GB')}
               </p>
               <p>
-                <span className="font-semibold">Total Price:</span> LKR {order.totalPrice.toLocaleString()}.00
+                <span className="font-semibold">Total Price:</span> LKR {order.cartId.totalPrice.toLocaleString()}.00
               </p>
             </div>
           </div>
