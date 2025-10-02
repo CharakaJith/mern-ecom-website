@@ -100,10 +100,44 @@ const ItemDisplay: React.FC = () => {
       return;
     }
 
-    //
+    // update existing cart
     if (activeCart) {
-      setPopupMessage('Item already in your cart!');
-      setTimeout(() => setPopupMessage(null), 3000);
+      try {
+        const cartDetails = {
+          itemId: item._id,
+          name: item.name,
+          quantity: quantity,
+          size: selectedSize,
+          price: item.price,
+        };
+
+        const res = await api.put(`/api/v1/cart/${activeCart._id}`, cartDetails, {
+          headers: { Authorization: `"${accessToken}"` },
+        });
+
+        if (res.data.success) {
+          const savedCart = res.data.response.data.cart;
+
+          // clear and re-populate session cart
+          clearCart();
+          savedCart.items.forEach((cartItem: any) => addToCart(cartItem, cartItem.size, cartItem.quantity));
+
+          setActiveCart(savedCart);
+
+          setPopupMessage('Item added to cart!');
+          setTimeout(() => {
+            setPopupMessage(null);
+          }, 3000);
+        }
+      } catch (error: any) {
+        setPopupMessage(error.response?.data?.message || 'Failed to add item to cart');
+        setTimeout(() => setPopupMessage(null), 3000);
+      }
+
+      setPopupMessage('Item added to cart!');
+      setTimeout(() => {
+        setPopupMessage(null);
+      }, 3000);
       return;
     }
 
