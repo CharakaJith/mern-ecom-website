@@ -154,6 +154,8 @@ const ShoppingCart: React.FC = () => {
   };
 
   useEffect(() => {
+    console.log(cart);
+
     const accessToken = sessionStorage.getItem('accessToken');
     if (accessToken) {
       fetchUserDetails(accessToken);
@@ -185,7 +187,7 @@ const ShoppingCart: React.FC = () => {
                   <div className="flex-1">
                     <h2 className="font-semibold text-base sm:text-lg">{item.name}</h2>
                     <p className="text-sm text-gray-500">Size: {item.size}</p>
-                    <p className="text-gray-700 text-sm sm:text-base">LKR {item.price.toLocaleString()}.00</p>
+                    <p className="text-gray-700 text-sm sm:text-base">LKR {(item.price ?? 0).toLocaleString()}.00</p>
                   </div>
 
                   {/* quantity section */}

@@ -40,6 +40,27 @@ const cartController = {
     }
   },
 
+  update: async (req, res, next) => {
+    try {
+      const cartData = ({ itemId, name, quantity, size, price } = req.body);
+      cartData.userId = req.user.userId;
+      cartData.id = req.params.id;
+
+      const response = await cartService.updateCartItems(cartData);
+      const { success, status, data } = response;
+
+      res.status(status).json({
+        success: success,
+        response: {
+          status: status,
+          data: data,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
   delete: async (req, res, next) => {
     try {
       const { userId } = req.user;

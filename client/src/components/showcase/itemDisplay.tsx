@@ -17,6 +17,7 @@ const ItemDisplay: React.FC = () => {
   const { itemId } = useParams<{ itemId: string }>();
 
   const [item, setItem] = useState<ClothingItem>();
+  const [activeCart, setActiveCart] = useState<any>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<string>('');
@@ -24,7 +25,7 @@ const ItemDisplay: React.FC = () => {
   const [quantity, setQuantity] = useState<number>(1);
   const [selectedSize, setSelectedSize] = useState<string>('');
 
-  const { addToCart } = useCart();
+  const { addToCart, clearCart } = useCart();
 
   // fetch item details
   const fetchItemDetails = async () => {
@@ -47,6 +48,32 @@ const ItemDisplay: React.FC = () => {
     }
   };
 
+  // fetch cart for user
+  const fetchUserCart = async (accessToken: string) => {
+    try {
+      const { data } = await api.get('/api/v1/cart', {
+        headers: {
+          Authorization: `"${accessToken}"`,
+        },
+      });
+      const response = data;
+
+      if (response.success) {
+        const savedCart = data.response.data.cart;
+
+        // save current cart
+        if (savedCart && savedCart.items.length > 0) {
+          setActiveCart(savedCart);
+          savedCart.items.forEach((item: any) => addToCart(item, item.size, item.quantity));
+        }
+      } else {
+        setError(response.response.data.message || 'Failed to fetch user cart');
+      }
+    } catch (error: any) {
+      setError(error.message || 'Failed to fetch user cart');
+    }
+  };
+
   // handla quantity on change
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
@@ -63,12 +90,21 @@ const ItemDisplay: React.FC = () => {
       return;
     }
 
-    // add to session cart if user is logged in
     const accessToken = sessionStorage.getItem('accessToken');
+
+    // add to session cart if user is not logged in
     if (!accessToken) {
-      addToCart(item, selectedSize);
+      addToCart(item, selectedSize, quantity);
       setPopupMessage('Item added to cart!');
       setTimeout(() => setPopupMessage(null), 3000);
+      return;
+    }
+
+    //
+    if (activeCart) {
+      setPopupMessage('Item already in your cart!');
+      setTimeout(() => setPopupMessage(null), 3000);
+      return;
     }
 
     // send request
@@ -86,11 +122,18 @@ const ItemDisplay: React.FC = () => {
       });
 
       if (res.data.success) {
-        const savedItem = res.data.response.data.cart;
-        addToCart(savedItem, savedItem.items.size, savedItem.items.quantity);
+        const savedCart = res.data.response.data.cart;
+
+        // clear and re-populate session cart
+        clearCart();
+        savedCart.items.forEach((cartItem: any) => addToCart(cartItem, cartItem.size, cartItem.quantity));
+
+        setActiveCart(savedCart);
 
         setPopupMessage('Item added to cart!');
-        setTimeout(() => setPopupMessage(null), 3000);
+        setTimeout(() => {
+          setPopupMessage(null);
+        }, 3000);
       }
     } catch (error: any) {
       setPopupMessage(error.response?.data?.message || 'Failed to add item to cart');
@@ -101,6 +144,11 @@ const ItemDisplay: React.FC = () => {
   useEffect(() => {
     if (itemId) {
       fetchItemDetails();
+
+      const accessToken = sessionStorage.getItem('accessToken');
+      if (accessToken) {
+        fetchUserCart(accessToken);
+      }
     }
   }, [itemId]);
 

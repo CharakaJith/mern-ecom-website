@@ -34,7 +34,7 @@ const cartService = {
       };
     }
 
-    // check availablity
+    // check item availablity
     const availableItem = await itemRepo.getById(itemId);
     if (!availableItem) {
       throw new CustomError(RESPONSE.ITEM.NOT_FOUND, STATUS_CODE.NOT_FOUND);
@@ -90,8 +90,78 @@ const cartService = {
     };
   },
 
-  removeUserCart: async (deleteData) => {
-    const { userId, id } = deleteData;
+  updateCartItems: async (data) => {
+    const { itemId, name, quantity, size, price, userId, id } = data;
+
+    // validate cart items
+    const errorArray = [];
+    errorArray.push(await fieldValidator.validate_objectId(id, 'cart id'));
+    errorArray.push(await fieldValidator.validate_objectId(itemId, 'item id'));
+    errorArray.push(await fieldValidator.validate_string(name, 'item name'));
+    errorArray.push(await fieldValidator.validate_number(price, 'item price'));
+    errorArray.push(await fieldValidator.validate_number(quantity, 'item quantity'));
+    errorArray.push(await fieldValidator.validate_string(size, 'item size'));
+
+    // check request data
+    const filteredErrors = errorArray.filter((obj) => obj !== 1);
+    if (filteredErrors.length !== 0) {
+      logger(LOG_TYPE.ERROR, false, STATUS_CODE.BAD_REQUEST, filteredErrors);
+
+      return {
+        success: false,
+        status: STATUS_CODE.BAD_REQUEST,
+        data: filteredErrors,
+      };
+    }
+
+    // check if cart is available
+    const cart = await cartRepo.getById(id);
+    if (!cart || cart.status !== STATUS.ACTIVE) {
+      throw new CustomError(RESPONSE.CART.NOT_FOUND, STATUS_CODE.NOT_FOUND);
+    }
+
+    // check item availablity
+    const availableItem = await itemRepo.getById(itemId);
+    if (!availableItem) {
+      throw new CustomError(RESPONSE.ITEM.NOT_FOUND, STATUS_CODE.NOT_FOUND);
+    }
+
+    // check size
+    if (!availableItem.sizes.includes(size)) {
+      throw new CustomError(RESPONSE.ITEM.INVALID_SIZE(size, availableItem.sizes), STATUS_CODE.BAD_REQUEST);
+    }
+
+    // check if item is already in the cart
+    const existingItem = cart.items.find((item) => item.itemId._id.toString() === itemId.toString() && item.size === size);
+    if (existingItem) {
+      existingItem.quantity += quantity;
+    } else {
+      cart.items.push({
+        itemId,
+        name,
+        quantity,
+        size,
+        price,
+      });
+    }
+
+    // ppdate total price
+    cart.totalPrice = cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+    // update cart
+    const updatedCart = await cartRepo.update(cart);
+
+    return {
+      success: true,
+      status: STATUS_CODE.OK,
+      data: {
+        cart: updatedCart,
+      },
+    };
+  },
+
+  removeUserCart: async (data) => {
+    const { userId, id } = data;
 
     // sanitize cart id
     const errorArray = [];
