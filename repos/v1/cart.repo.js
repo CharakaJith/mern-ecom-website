@@ -16,14 +16,30 @@ const cartRepo = {
     }
   },
 
+  getById: async (cartId) => {
+    try {
+      return await Cart.findOne({ cartId, status: STATUS.ACTIVE }).populate('userId', '_id name').populate('items.itemId', 'name');
+    } catch (error) {
+      throw new CustomError(DAO.FAILED.GET.By_Id(ENTITY.CART, error), STATUS_CODE.SERVER_ERROR);
+    }
+  },
+
   getActiveByUserId: async (userId) => {
     try {
-      return await Cart.find({
+      return await Cart.findOne({
         userId,
         status: STATUS.ACTIVE,
       }).sort({ createdAt: -1 });
     } catch (error) {
       throw new CustomError(DAO.FAILED.GET.By_UserId(ENTITY.CART, error), STATUS_CODE.SERVER_ERROR);
+    }
+  },
+
+  update: async (cart) => {
+    try {
+      return await cart.save();
+    } catch (error) {
+      throw new CustomError(DAO.FAILED.UPDATE(ENTITY.CART, error), STATUS_CODE.SERVER_ERROR);
     }
   },
 };

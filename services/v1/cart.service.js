@@ -8,7 +8,7 @@ const STATUS = require('../../enum/cartStatus');
 
 const { LOG_TYPE } = require('../../constants/logger.constants');
 const { STATUS_CODE } = require('../../constants/app.constants');
-const { RESPONSE } = require('../../common/messages');
+const { RESPONSE, JWT } = require('../../common/messages');
 
 const cartService = {
   addToCart: async (data) => {
@@ -106,6 +106,46 @@ const cartService = {
       data: {
         cart: cart,
       },
+    };
+  },
+
+  removeUserCart: async (deleteData) => {
+    const { userId, id } = deleteData;
+
+    // sanitize cart id
+    const errorArray = [];
+    errorArray.push(await fieldValidator.validate_objectId(id, 'cart id'));
+
+    // check request data
+    const filteredErrors = errorArray.filter((obj) => obj !== 1);
+    if (filteredErrors.length !== 0) {
+      logger(LOG_TYPE.ERROR, false, STATUS_CODE.BAD_REQUEST, filteredErrors);
+
+      return {
+        success: false,
+        status: STATUS_CODE.BAD_REQUEST,
+        data: filteredErrors,
+      };
+    }
+
+    // get cart
+    const cart = await cartRepo.getById(id);
+    if (!cart) {
+      throw new CustomError(RESPONSE.CART.NOT_FOUND, STATUS_CODE.NOT_FOUND);
+    }
+
+    // check cart belongs to user
+    if (cart.userId._id.toString() !== userId) {
+      throw new CustomError(JWT.AUTH.FORBIDDEN, STATUS_CODE.FORBIDDON);
+    }
+
+    // update cart status
+    cart.status = STATUS.INACTIVE;
+    await cartRepo.update(cart);
+
+    return {
+      success: true,
+      status: STATUS_CODE.NO_CONTENT,
     };
   },
 };

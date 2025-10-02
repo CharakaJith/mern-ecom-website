@@ -112,11 +112,11 @@ const orderService = {
   },
 
   getOrderById: async (data) => {
-    const { orderId, userId } = data;
+    const { id, userId } = data;
 
     // sanitize order id
     const errorArray = [];
-    errorArray.push(await fieldValidator.validate_objectId(orderId, 'order id'));
+    errorArray.push(await fieldValidator.validate_objectId(id, 'order id'));
 
     // check request data
     const filteredErrors = errorArray.filter((obj) => obj !== 1);
@@ -131,7 +131,7 @@ const orderService = {
     }
 
     // get order
-    const order = await orderRepo.getById(orderId);
+    const order = await orderRepo.getById(id);
     if (!order) {
       throw new CustomError(RESPONSE.ORDER.NOT_FOUND, STATUS_CODE.NOT_FOUND);
     }

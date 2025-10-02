@@ -30,6 +30,9 @@ module.exports = {
     ORDER: {
       NOT_FOUND: 'Invalid order id',
     },
+    CART: {
+      NOT_FOUND: 'Invalid cart id',
+    },
   },
 
   // field validation messages

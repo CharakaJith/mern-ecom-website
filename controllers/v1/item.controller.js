@@ -33,9 +33,9 @@ const itemController = {
 
   getById: async (req, res, next) => {
     try {
-      const itemId = req.params.id;
+      const { id } = req.params;
 
-      const response = await itemService.getClothingItemById(itemId);
+      const response = await itemService.getClothingItemById(id);
       const { success, status, data } = response;
 
       res.status(status).json({

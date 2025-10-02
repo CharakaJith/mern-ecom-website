@@ -4,8 +4,7 @@ const orderController = {
   checkout: async (req, res, next) => {
     try {
       const { items } = req.body;
-      const userId = req.user.userId;
-      const email = req.user.email;
+      const { userId, email } = req.user;
       const orderData = { items, userId, email };
 
       const response = await orderService.createNewOrder(orderData);
@@ -25,7 +24,7 @@ const orderController = {
 
   getAll: async (req, res, next) => {
     try {
-      const userId = req.user.userId;
+      const { userId } = req.user;
 
       const response = await orderService.getAllOrdersForUser(userId);
       const { success, status, data } = response;
@@ -44,9 +43,9 @@ const orderController = {
 
   getById: async (req, res, next) => {
     try {
-      const orderId = req.params.id;
-      const userId = req.user.userId;
-      const getData = { orderId, userId };
+      const { id } = req.params;
+      const { userId } = req.user;
+      const getData = { id, userId };
 
       const response = await orderService.getOrderById(getData);
       const { success, status, data } = response;

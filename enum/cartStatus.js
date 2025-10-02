@@ -1,6 +1,7 @@
 module.exports = {
   ACTIVE: 'active',
+  INACTIVE: 'inactive',
   PURCHASED: 'purchased',
 
-  values: ['active', 'purchased'],
+  values: ['active', 'inactive', 'purchased'],
 };

@@ -40,6 +40,26 @@ const cartController = {
       next(error);
     }
   },
+
+  delete: async (req, res, next) => {
+    try {
+      const { userId } = req.user;
+      const { id } = req.params;
+      const deleteData = { userId, id };
+
+      const response = await cartService.removeUserCart(deleteData);
+      const { success, status } = response;
+
+      res.status(status).json({
+        success: success,
+        response: {
+          status: status,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 
 module.exports = cartController;
