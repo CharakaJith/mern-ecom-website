@@ -15,6 +15,7 @@ const api = axios.create({
 });
 
 const ShoppingCart: React.FC = () => {
+  const [activeCart, setActiveCart] = useState<any>(null);
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string[]>([]);
   const [isError, setIsError] = useState<boolean>(false);
@@ -42,6 +43,62 @@ const ShoppingCart: React.FC = () => {
       }
     } catch (error: any) {
       setError(error.message || 'Failed to fetch user details');
+    }
+  };
+
+  // fetch cart for user
+  const fetchUserCart = async (accessToken: string) => {
+    try {
+      const { data } = await api.get('/api/v1/cart', {
+        headers: {
+          Authorization: `"${accessToken}"`,
+        },
+      });
+      const response = data;
+
+      if (response.success) {
+        const savedCart = data.response.data.cart;
+
+        // clear and save current cart
+        if (savedCart.items && savedCart.items.length > 0) {
+          clearCart();
+          setActiveCart(savedCart);
+          savedCart.items.forEach((item: any) => addToCart(item, item.size, item.quantity));
+        }
+      } else {
+        setError(response.response.data.message || 'Failed to fetch user cart');
+      }
+    } catch (error: any) {
+      setError(error.message || 'Failed to fetch user cart');
+    }
+  };
+
+  // handle clear click
+  const handleClearCart = async () => {
+    const accessToken = sessionStorage.getItem('accessToken');
+
+    // only clear session cart
+    if (!activeCart || !accessToken) {
+      clearCart();
+      return;
+    }
+
+    console.log(activeCart._id);
+
+    // send request
+    try {
+      const res = await api.delete(`/api/v1/cart/${activeCart._id}`, {
+        headers: {
+          Authorization: `"${accessToken}"`,
+        },
+      });
+
+      if (res.status === 200 || res.status === 204) {
+        clearCart();
+        setActiveCart(null);
+      }
+    } catch (error: any) {
+      setError(error.message || 'Failed to remove user cart');
     }
   };
 
@@ -100,6 +157,7 @@ const ShoppingCart: React.FC = () => {
     const accessToken = sessionStorage.getItem('accessToken');
     if (accessToken) {
       fetchUserDetails(accessToken);
+      fetchUserCart(accessToken);
     }
   }, []);
 
@@ -180,7 +238,9 @@ const ShoppingCart: React.FC = () => {
               <div className="flex gap-3 w-full sm:w-auto justify-center sm:justify-end">
                 {/* clear button */}
                 <Button
-                  onClick={clearCart}
+                  onClick={() => {
+                    handleClearCart();
+                  }}
                   className="flex-1 sm:flex-none px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-900 cursor-pointer"
                 >
                   Clear Cart

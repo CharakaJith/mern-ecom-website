@@ -130,7 +130,7 @@ const cartService = {
 
     // get cart
     const cart = await cartRepo.getById(id);
-    if (!cart) {
+    if (!cart || cart.status !== STATUS.ACTIVE) {
       throw new CustomError(RESPONSE.CART.NOT_FOUND, STATUS_CODE.NOT_FOUND);
     }
 

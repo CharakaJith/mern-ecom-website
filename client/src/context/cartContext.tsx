@@ -41,7 +41,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           if (i.quantity > 1) {
             return { ...i, quantity: i.quantity - 1 };
           } else {
-            return []; // remove completely if quantity is 1
+            return [];
           }
         }
         return i;

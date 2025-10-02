@@ -18,7 +18,7 @@ const cartRepo = {
 
   getById: async (cartId) => {
     try {
-      return await Cart.findOne({ cartId, status: STATUS.ACTIVE }).populate('userId', '_id name').populate('items.itemId', 'name');
+      return await Cart.findById(cartId).populate('userId', '_id name').populate('items.itemId', 'name');
     } catch (error) {
       throw new CustomError(DAO.FAILED.GET.By_Id(ENTITY.CART, error), STATUS_CODE.SERVER_ERROR);
     }
